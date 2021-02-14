@@ -11898,7 +11898,7 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
 
 .user-panel img {
   height: auto;
-  width: 2.1rem;
+  width: 3rem;
 }
 
 .user-panel .info {
@@ -21824,7 +21824,7 @@ a.close.disabled, a.disabled.mailbox-attachment-close {
 
 .login-box,
 .register-box {
-  width: 360px;
+  width: 420px;
 }
 
 @media (max-width: 576px) {
