@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% block meta_head %}
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  {% endblock %}
+  <title>Donation CMS</title>
+
+  {% block css %}
+  <!-- Google Font: Source Sans Pro -->
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/fontawesome-free/css/all.min.css">
+  <!-- icheck bootstrap -->
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- Theme style -->
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/dist/css/adminlte.min.css">
+  {% endblock %}
+</head>
+
+<body class="hold-transition login-page">
+  <div class="login-box">
+    <!-- /.login-logo -->
+    <div class="card card-outline">
+      <div class="card-body p-4">
+        <div class="d-block text-center mb-3">
+          <img src="{{base_url()}}assets/images/user.png" class="mb-3" style="width: 30%" />
+          <h2 class="font-weight-bold mt-2">Login</h2>
+          <p class="login-box-msg text-muted" style="line-height: 1.3;">Silahkan masukan username dan password untuk
+            masuk ke aplikasi</p>
+        </div>
+        <form action="{{base_url()}}backend/auth/signin" method="post">
+          {% if status != null and status != 'true' %}
+          <div class="alert alert-danger p-3">
+            <h5 class="m-0"><i class="icon fas fa-ban"></i>Oops!</h5>
+            {{message}}
+          </div>
+          {% endif %}
+          <div class="input-group mb-3">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-user"></span>
+              </div>
+            </div>
+            <input type="text" name="username" class="form-control" placeholder="Masukan username ...">
+          </div>
+          <div class="input-group mb-3">
+            <div class="input-group-append">
+              <div class="input-group-text">
+                <span class="fas fa-lock"></span>
+              </div>
+            </div>
+            <input type="password" name="password" class="form-control" placeholder="Masukan password ...">
+          </div>
+          <div class="row">
+            <!-- /.col -->
+            <div class="col-12 mt-3">
+              <button type="submit" class="btn btn-primary btn-block">Login</button>
+            </div>
+            <!-- /.col -->
+          </div>
+        </form>
+      </div>
+      <!-- /.card-body -->
+    </div>
+    <!-- /.card -->
+  </div>
+  <!-- /.login-box -->
+
+  {% block vendor_js %}
+  <!-- jQuery -->
+  <script src="{{base_url()}}assets/template/backend/plugins/jquery/jquery.min.js"></script>
+  <!-- Bootstrap 4 -->
+  <script src="{{base_url()}}assets/template/backend/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- AdminLTE App -->
+  <script src="{{base_url()}}assets/template/backend/dist/js/adminlte.min.js"></script>
+  {% endblock %}
+
+  <script type="text/javascript">
+    setTimeout(() => {
+      $('.alert').addClass('d-none');
+    }, 3000);
+  </script>
+</body>
+
+</html>

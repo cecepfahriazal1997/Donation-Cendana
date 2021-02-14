@@ -1,0 +1,16 @@
+<html>
+    <head>
+        <title>Donation CMS</title>
+        <meta name="google" value="notranslate">
+        <script type="text/javascript" src="{{base_url()}}assets/template/backend/plugins/jquery/jquery.min.js"></script>
+    </head>
+    <body>
+    Redirecting...
+    </body>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            localStorage.setItem('key', "{{key}}");
+            window.location.href = '{{base_url()}}backend/page';
+        });
+    </script>
+</html>
