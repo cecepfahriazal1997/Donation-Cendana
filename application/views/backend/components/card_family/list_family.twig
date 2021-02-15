@@ -1,0 +1,129 @@
+{% extends "backend/skeleton.twig" %}
+{% block additional_title %}{{title}}{% endblock %}
+{% block title_menu %}{{title}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{base_url()}}">Home</a></li>
+    <li class="breadcrumb-item active">{{title}}</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 col-md-10 mb-3">
+                <h6 class="m-0 text-muted font-weight-normal">Daftar Anggota Keluarga <span class="text-primary font-weight-bold">#31200010001</span></h6>
+            </div>
+            <div class="col-12 col-md-2 text-right">
+                <a class="btn btn-default mr-2" href="{{base_url()}}backend/page/cardFamily"><i class="fas fa-reply"></i>  Kembali</a>
+                <a class="btn btn-primary" href="{{base_url()}}backend/page/formFamily"><i class="fas fa-plus"></i>  Tambah</a>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">No</th>
+                                    <th style="width: 15%">Kode</th>
+                                    <th style="width: 20%">Nama</th>
+                                    <th style="width: 10%">Jenis Kelamin</th>
+                                    <th style="width: 10%">Status</th>
+                                    <th style="width: 10%">Tempat Lahir</th>
+                                    <th style="width: 10%">Tanggal Lahir</th>
+                                    <th style="width: 10%">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>31200010001</td>
+                                    <td>Ahmad Supandi</td>
+                                    <td>Laki - laki</td>
+                                    <td>Suami</td>
+                                    <td>Bandung</td>
+                                    <td>12 Des 1940</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary">Aksi</button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
+                                                data-toggle="dropdown">
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a class="dropdown-item" href="#">Update</a>
+                                                <a class="dropdown-item" href="#">Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>31200010002</td>
+                                    <td>Citra Lestari</td>
+                                    <td>Perempuan</td>
+                                    <td>Istri</td>
+                                    <td>Bandung</td>
+                                    <td>23 Jan 1950</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary">Aksi</button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
+                                                data-toggle="dropdown">
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a class="dropdown-item" href="#">Update</a>
+                                                <a class="dropdown-item" href="#">Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>3</td>
+                                    <td>31200010003</td>
+                                    <td>Agung Sanjaya</td>
+                                    <td>Laki - laki</td>
+                                    <td>Anak</td>
+                                    <td>Bandung</td>
+                                    <td>12 Apr 1998</td>
+                                    <td>
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-primary">Aksi</button>
+                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
+                                                data-toggle="dropdown">
+                                                <span class="sr-only">Toggle Dropdown</span>
+                                            </button>
+                                            <div class="dropdown-menu" role="menu">
+                                                <a class="dropdown-item" href="#">Detail</a>
+                                                <div class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Update</a>
+                                                <a class="dropdown-item" href="#">Delete</a>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script>
+    $(function () {
+        $(".table").DataTable({
+            "responsive": true,
+            "lengthChange": false,
+            "autoWidth": false,
+            "info": true,
+            "ordering": false
+        });
+    });
+</script>
+{% endblock %}

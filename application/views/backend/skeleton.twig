@@ -16,15 +16,26 @@
   <!-- overlayScrollbars -->
   <link rel="stylesheet"
     href="{{base_url()}}assets/template/backend/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- Select2 -->
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/select2/css/select2.min.css">
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+  <!-- iCheck for checkboxes and radio inputs -->
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{base_url()}}assets/template/backend/dist/css/adminlte.min.css">
+  <!-- Tempusdominus Bootstrap 4 -->
+  <link rel="stylesheet" href="{{base_url()}}assets/template/backend/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
   {% endblock %}
 </head>
 
 <body
   class="sidebar-mini control-sidebar-slide-open accent-primary layout-fixed layout-navbar-fixed layout-footer-fixed">
   <!-- Main Sidebar Container -->
-  <aside class="main-sidebar sidebar-light-primary elevation-4">
+  <aside class="main-sidebar sidebar-light-primary elevation-2">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
       <img src="{{base_url()}}assets/template/frontend/img/hero-img.png" alt="Donation CMS"
@@ -60,7 +71,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="{{base_url()}}backend/page" class="nav-link {{(currMenu == '' ? 'active' : '')}}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -68,7 +79,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="{{base_url()}}backend/page/cardFamily" class="nav-link {{(currMenu == 'cardFamily' ? 'active' : '')}}">
               <i class="nav-icon fas fa-users"></i>
               <p>
                 Data Keluarga
@@ -76,7 +87,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="{{base_url()}}backend/page/donation" class="nav-link {{(currMenu == 'donation' ? 'active' : '')}}">
               <i class="nav-icon fas fa-coins"></i>
               <p>
                 Data Donasi
@@ -85,7 +96,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="" class="nav-link">
+            <a href="{{base_url()}}backend/page/report" class="nav-link {{(currMenu == 'report' ? 'active' : '')}}">
               <i class="nav-icon fas fa-print"></i>
               <p>
                 Laporan
@@ -104,7 +115,7 @@
     <!-- Content Header (Page header) -->
     <div class="content-header">
       <div class="container-fluid">
-        <div class="row mb-2">
+        <div class="row mb-2 pl-3 pr-3">
           <div class="col-sm-6">
             <h1 class="m-0">{% block title_menu %}{% endblock %}</h1>
           </div><!-- /.col -->
@@ -117,8 +128,10 @@
     <!-- /.content-header -->
 
     <!-- Main content -->
+    <div class="pl-4 pr-4">
     {% block main_content %}
     {% endblock %}
+    </div>
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
@@ -152,6 +165,22 @@
   <script src="{{base_url()}}assets/template/backend/plugins/raphael/raphael.min.js"></script>
   <script src="{{base_url()}}assets/template/backend/plugins/jquery-mapael/jquery.mapael.min.js"></script>
   <script src="{{base_url()}}assets/template/backend/plugins/jquery-mapael/maps/usa_states.min.js"></script>
+  
+  <!-- DataTables  & Plugins -->
+  <script src="{{base_url()}}assets/template/backend/plugins/datatables/jquery.dataTables.min.js"></script>
+  <script src="{{base_url()}}assets/template/backend/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="{{base_url()}}assets/template/backend/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="{{base_url()}}assets/template/backend/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="{{base_url()}}assets/template/backend/plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="{{base_url()}}assets/template/backend/plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  
+  <!-- Tempusdominus Bootstrap 4 -->
+  <script src="{{base_url()}}assets/template/backend/plugins/moment/moment.min.js"></script>    
+  <script src="{{base_url()}}assets/template/backend/plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
+  
+  <!-- Select2 -->
+  <script src="{{base_url()}}assets/template/backend/plugins/select2/js/select2.full.min.js"></script>
+
   <!-- ChartJS -->
   <script src="{{base_url()}}assets/template/backend/plugins/chart.js/Chart.min.js"></script>
 

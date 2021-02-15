@@ -1,0 +1,157 @@
+{% extends "backend/skeleton.twig" %}
+{% block additional_title %}{{title}}{% endblock %}
+{% block title_menu %}{{title}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{base_url()}}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{base_url()}}backend/page/cardFamilyDetail">{{title}}</a></li>
+    <li class="breadcrumb-item active">Form</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-right">
+                <a class="btn btn-default" href="{{base_url()}}backend/page/cardFamilyDetail"><i class="fas fa-reply"></i>
+                    Kembali</a>
+            </div>
+            <div class="col-md-12 mt-2">
+                <!-- general form elements -->
+                <div class="card card-outline card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Tambah Anggota Keluarga</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="number">Kode</label>
+                                        <input type="text" class="form-control" id="number"
+                                            placeholder="Masukan kombinasi kode unik">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name">Nama Lengkap</label>
+                                        <input type="text" class="form-control" id="name"
+                                            placeholder="Masukan nama lengkap">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="gender">Jenis Kelamin</label>
+                                        <div class="d-block">
+                                            <div class="icheck-primary d-inline">
+                                                <input type="radio" id="male" name="L" checked>
+                                                <label for="male">
+                                                    Laki-laki
+                                                </label>
+                                            </div>
+                                            <div class="icheck-primary d-inline ml-3">
+                                                <input type="radio" id="female" name="P">
+                                                <label for="female">
+                                                    Perempuan
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="birth_place">Tempat Lahir</label>
+                                        <input type="text" class="form-control" id="birth_place"
+                                            placeholder="Masukan tempat lahir">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="date_birth">Tanggal Lahir</label>
+                                        <div class="input-group date" id="birth_date" name="date_birth" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" placeholder="yyyy-mm-dd" data-target="#birth_date"/>
+                                            <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
+                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="religion">Agama</label>
+                                        <select class="form-control select2" name="religion" style="width: 100%;">
+                                            <option>Pilih Agama</option>
+                                            <option>Islam</option>
+                                            <option>Kristen</option>
+                                            <option>Budha</option>
+                                            <option>Hindu</option>
+                                            <option>Lainnya</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="education">Pendidikan</label>
+                                        <select class="form-control select2" name="education" style="width: 100%;">
+                                            <option>Pilih Pendidikan</option>
+                                            <option>S1</option>
+                                            <option>S2</option>
+                                            <option>S3</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="profession">Pekerjaan</label>
+                                        <select class="form-control select2" name="profession" style="width: 100%;">
+                                            <option>Pilih Pekerjaan</option>
+                                            <option>Guru</option>
+                                            <option>Swasta</option>
+                                            <option>PNS</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="d-block">
+                                    <div class="border rounded p-1 w-100">
+                                        <img src="{{base_url()}}assets/template/backend/dist/img/user2-160x160.jpg" style="width: inherit" alt="Product Image">
+                                    </div>
+                                    <button type="button" class="btn btn-outline-primary btn-block mt-2">Browse</button>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer text-right">
+                            <a href="{{base_url()}}backend/page/cardFamilyDetail" class="btn btn-default mr-2"><i class="fas fa-reply"></i> Kembali</a>
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.card -->
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('.select2').select2()
+        //Date range picker
+        $('#birth_date').datetimepicker({
+            format: 'YYYY-MM-DD'
+        });
+    });
+</script>
+{% endblock %}

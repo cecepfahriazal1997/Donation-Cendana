@@ -1,0 +1,59 @@
+{% extends "backend/skeleton.twig" %}
+{% block additional_title %}{{title}}{% endblock %}
+{% block title_menu %}{{title}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{base_url()}}">Home</a></li>
+    <li class="breadcrumb-item active">{{title}}</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-right">
+                <a class="btn btn-primary" href="{{base_url()}}backend/page/"><i class="fas fa-download"></i>  Download</a>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">No</th>
+                                    <th style="width: 50%">Tanggal</th>
+                                    <th style="width: 30%" class="text-right">Total Donasi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td>12 Desember 2020</td>
+                                    <td class="text-right">Rp. 100.000</td>
+                                </tr>
+                                <tr>
+                                    <td>2</td>
+                                    <td>12 Desember 2020</td>
+                                    <td class="text-right">Rp. 150.000</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan=2 class="text-right font-weight-bold">Total Semua Donasi</td>
+                                    <td class="text-right font-weight-bold">Rp. 250.000</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script>
+</script>
+{% endblock %}
