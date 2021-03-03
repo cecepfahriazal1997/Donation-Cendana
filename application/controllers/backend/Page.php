@@ -23,21 +23,29 @@ class Page extends CI_Controller {
 		$this->twig->display('backend/components/card_family/list', $data);
 	}
 	
-	public function cardFamilyDetail() {
+	public function cardFamilyDetail($id=null) {
 		$data['title']	    = "Data Anggota Keluarga";
 		$data['currMenu']	= 'cardFamily';
+		if (!empty($id))
+			$data['detail']		= $this->general->fetchSingleData(array('id', $id), 'family_card');
 		$this->twig->display('backend/components/card_family/list_family', $data);
 	}
 	
-	public function formCardFamily() {
+	public function formCardFamily($id=null) {
 		$data['title']	    = "Kartu Keluarga";
 		$data['currMenu']	= 'cardFamily';
+		if (!empty($id))
+			$data['detail']		= $this->general->fetchSingleData(array('id', $id), 'family_card');
 		$this->twig->display('backend/components/card_family/form', $data);
 	}
 	
-	public function formFamily() {
+	public function formFamily($cardId=null, $id=null) {
 		$data['title']	    = "Anggota Keluarga";
 		$data['currMenu']	= 'cardFamily';
+		if (!empty($cardId))
+			$data['card']		= $this->general->fetchSingleData(array('id', $cardId), 'family_card');
+		if (!empty($id))
+			$data['detail']		= $this->general->fetchSingleData(array('id', $id), 'family');
 		$this->twig->display('backend/components/card_family/form_family', $data);
 	}
 	

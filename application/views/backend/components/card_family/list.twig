@@ -29,48 +29,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>31200010001</td>
-                                    <td>Ahmad Supandi</td>
-                                    <td>Jl. bahagia no. 5 kec. Ciuyah, Kel. Bagja, Bandung, Jawa Barat</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary">Aksi</button>
-                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
-                                                data-toggle="dropdown">
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                            </button>
-                                            <div class="dropdown-menu" role="menu">
-                                                <a class="dropdown-item" href="{{base_url()}}backend/page/cardFamilyDetail">Detail</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Update</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>31200010002</td>
-                                    <td>Budi Sanjoyo</td>
-                                    <td>Jl. bahagia no. 90 kec. Ciuyah, Kel. Bagja, Bandung, Jawa Barat</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary">Aksi</button>
-                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
-                                                data-toggle="dropdown">
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                            </button>
-                                            <div class="dropdown-menu" role="menu">
-                                                <a class="dropdown-item" href="#">Detail</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Update</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -84,13 +42,100 @@
 {% block custom_js %}
 <script>
     $(function () {
-        $(".table").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            "autoWidth": false,
-            "info": true,
-            "ordering": false
-        });
+        list();
     });
+
+    function list() {
+        $.ajax({
+            url: "{{base_url()}}api/backend/family/listCardFamily",
+            type: "GET",
+            dataType: "JSON",
+            headers: {
+                "Authorization": localStorage.getItem('key')
+            },
+            success: function(data) {
+                if ($.fn.DataTable.isDataTable('.table')) {
+                    $('.table').DataTable().destroy();
+                }
+                $('.table tbody').empty();
+                if (data.status) {
+                    $(".table").DataTable({
+                        data: data.data,
+                        aoColumns: [
+                            { mData: 'id' },
+                            { mData: 'number' },
+                            { mData: 'name' },
+                            { mData: 'address' },
+                            { mData: 'action' }
+                        ],
+                        responsive: true,
+                        lengthChange: false,
+                        autoWidth: false,
+                        info: true,
+                        ordering: false,
+                        language: {
+                            emptyTable: "Belum ada riwayat Kartu Keluarga"
+                        }
+                    });
+                } else {
+                    $(".table").DataTable({
+                        language: {
+                            emptyTable: "Belum ada riwayat Kartu Keluarga"
+                        }
+                    });
+                }
+            },
+            error: function(err) {
+                alert(err);
+            }
+        });
+    }
+
+    function deleteData(id) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Apakah kamu yakin ?',
+            text: "Kamu akan menghapus data yang terpilih",
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{base_url()}}api/backend/family/deleteCardFamily",
+                    type: "POST",
+                    dataType: "JSON",
+                    headers: {
+                        "Authorization": localStorage.getItem('key')
+                    },
+                    data: {
+                        id : id
+                    },
+                    success: function(data) {
+                        if (data.status) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            list();
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: data.message,
+                                showConfirmButton: false,
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        alert(err);
+                    }
+                });
+            }
+        })
+    }
 </script>
 {% endblock %}

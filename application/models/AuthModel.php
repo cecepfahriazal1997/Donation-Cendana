@@ -11,8 +11,7 @@ use Lcobucci\JWT\Signer\Key;
 use Lcobucci\JWT\Signer\Hmac\Sha256;
 use Lcobucci\JWT\Parser;
 use Lcobucci\JWT\ValidationData;
-class M_auth extends CI_Model
-{
+class AuthModel extends CI_Model {
     private $secretkey = '@HLytwwap+MV4w4b9(Q!aTxm)EyTb.s**my2Z7%D';
 
     public function __construct()
@@ -105,8 +104,7 @@ class M_auth extends CI_Model
                 unset($user["password"]);
                 
                 $user['logged_in']              = true;
-                $user['key']                    = "";
-                $user['activekey']              = $this->generateToken($user['id'], $user['username'], $user['name'], $user['role']);
+                $user['key']                    = $this->generateToken($user['id'], $user['username'], $user['name'], $user['role']);
 
                 $this->session->set_userdata($user);
                 // congratulations, you've made it.
@@ -132,7 +130,6 @@ class M_auth extends CI_Model
                         ->issuedAt($time) // Configures the time that the token was issue (iat claim)
                         ->expiresAt($time + 43200) // Configures the expiration time of the token (exp claim)
                         ->withClaim('id', $id)
-                        ->withClaim('session_id', session_id())
                         ->withClaim('username', $username)
                         ->withClaim('name', $name)
                         ->withClaim('role', $role)

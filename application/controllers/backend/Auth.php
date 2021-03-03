@@ -4,7 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Auth extends CI_Controller {
     public function __construct() {
 		parent::__construct();
-        $this->load->model('M_auth', 'model');
 	}
 	
 	public function index() {
@@ -20,7 +19,7 @@ class Auth extends CI_Controller {
 				$result['message']  = 'Lengkapi form inputan yang tersedia!';
 				$this->twig->display('backend/login', $result);
 			} else {
-				$data         = $this->model->processLogin($this->input->post('username'), $this->input->post('password'));
+				$data         = $this->auth->processLogin($this->input->post('username'), $this->input->post('password'));
 				if ($data['status'] != 'success') {
 					$result['status']   = 'failed';
 					$result['error']  = "Undefined issue, please contact administrator.";
@@ -29,7 +28,7 @@ class Auth extends CI_Controller {
 				$result['status']   = $data['status'];
 				$result['message']  = $data['message'];
 				if ($result['status'] == "success") {
-					$result['key']	= $this->session->userdata("activekey");
+					$result['key']	= $this->session->userdata("key");
 					$this->twig->display('backend/redirection', $result);
 				} else {
 					$this->twig->display('backend/login', $result);

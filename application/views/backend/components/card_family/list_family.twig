@@ -4,6 +4,7 @@
 {% block breadcrumb %}
 <ol class="breadcrumb float-sm-right">
     <li class="breadcrumb-item"><a href="{{base_url()}}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{base_url()}}backend/page/cardFamily">Data Kartu Keluarga</a></li>
     <li class="breadcrumb-item active">{{title}}</li>
 </ol>
 {% endblock %}
@@ -12,11 +13,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12 col-md-10 mb-3">
-                <h6 class="m-0 text-muted font-weight-normal">Daftar Anggota Keluarga <span class="text-primary font-weight-bold">#31200010001</span></h6>
+                <h6 class="m-0 text-muted font-weight-normal">Daftar Anggota Keluarga <span class="text-primary font-weight-bold">#{{detail.number}}</span></h6>
             </div>
             <div class="col-12 col-md-2 text-right">
                 <a class="btn btn-default mr-2" href="{{base_url()}}backend/page/cardFamily"><i class="fas fa-reply"></i>  Kembali</a>
-                <a class="btn btn-primary" href="{{base_url()}}backend/page/formFamily"><i class="fas fa-plus"></i>  Tambah</a>
+                <a class="btn btn-primary" href="{{base_url()}}backend/page/formFamily/{{detail.id}}"><i class="fas fa-plus"></i>  Tambah</a>
             </div>
             <div class="col-12 mt-2">
                 <div class="card">
@@ -36,74 +37,6 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>31200010001</td>
-                                    <td>Ahmad Supandi</td>
-                                    <td>Laki - laki</td>
-                                    <td>Suami</td>
-                                    <td>Bandung</td>
-                                    <td>12 Des 1940</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary">Aksi</button>
-                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
-                                                data-toggle="dropdown">
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                            </button>
-                                            <div class="dropdown-menu" role="menu">
-                                                <a class="dropdown-item" href="#">Update</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>31200010002</td>
-                                    <td>Citra Lestari</td>
-                                    <td>Perempuan</td>
-                                    <td>Istri</td>
-                                    <td>Bandung</td>
-                                    <td>23 Jan 1950</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary">Aksi</button>
-                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
-                                                data-toggle="dropdown">
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                            </button>
-                                            <div class="dropdown-menu" role="menu">
-                                                <a class="dropdown-item" href="#">Update</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>3</td>
-                                    <td>31200010003</td>
-                                    <td>Agung Sanjaya</td>
-                                    <td>Laki - laki</td>
-                                    <td>Anak</td>
-                                    <td>Bandung</td>
-                                    <td>12 Apr 1998</td>
-                                    <td>
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-primary">Aksi</button>
-                                            <button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
-                                                data-toggle="dropdown">
-                                                <span class="sr-only">Toggle Dropdown</span>
-                                            </button>
-                                            <div class="dropdown-menu" role="menu">
-                                                <a class="dropdown-item" href="#">Detail</a>
-                                                <div class="dropdown-divider"></div>
-                                                <a class="dropdown-item" href="#">Update</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
                             </tbody>
                         </table>
                     </div>
@@ -117,13 +50,103 @@
 {% block custom_js %}
 <script>
     $(function () {
-        $(".table").DataTable({
-            "responsive": true,
-            "lengthChange": false,
-            "autoWidth": false,
-            "info": true,
-            "ordering": false
-        });
+        list();
     });
+
+    function list() {
+        $.ajax({
+            url: "{{base_url()}}api/backend/family/listFamily?parent_id={{detail.id}}",
+            type: "GET",
+            dataType: "JSON",
+            headers: {
+                "Authorization": localStorage.getItem('key')
+            },
+            success: function(data) {
+                if ($.fn.DataTable.isDataTable('.table')) {
+                    $('.table').DataTable().destroy();
+                }
+                $('.table tbody').empty();
+                if (data.status) {
+                    $(".table").DataTable({
+                        data: data.data,
+                        aoColumns: [
+                            { mData: 'id' },
+                            { mData: 'code' },
+                            { mData: 'name' },
+                            { mData: 'gender' },
+                            { mData: 'status' },
+                            { mData: 'birth_place' },
+                            { mData: 'birth_date' },
+                            { mData: 'action' }
+                        ],
+                        responsive: true,
+                        lengthChange: false,
+                        autoWidth: false,
+                        info: true,
+                        ordering: false,
+                        language: {
+                            emptyTable: "Belum ada riwayat Anggota Keluarga"
+                        }
+                    });
+                } else {
+                    $(".table").DataTable({
+                        language: {
+                            emptyTable: "Belum ada riwayat Anggota Keluarga"
+                        }
+                    });
+                }
+            },
+            error: function(err) {
+                alert(err);
+            }
+        });
+    }
+
+    function deleteData(id) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Apakah kamu yakin ?',
+            text: "Kamu akan menghapus data yang terpilih",
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{base_url()}}api/backend/family/deleteFamily",
+                    type: "POST",
+                    dataType: "JSON",
+                    headers: {
+                        "Authorization": localStorage.getItem('key')
+                    },
+                    data: {
+                        id : id
+                    },
+                    success: function(data) {
+                        if (data.status) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            list();
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: data.message,
+                                showConfirmButton: false,
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        alert(err);
+                    }
+                });
+            }
+        })
+    }
 </script>
 {% endblock %}

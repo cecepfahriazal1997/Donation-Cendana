@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  {% block meta_head %}
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+  {% endblock %}
+  <title>Donasi Cendana</title>
+  {% block css %}
+  <!-- Favicons -->
+  <link href="{{base_url()}}assets/template/frontend/img/favicon.png" rel="icon">
+  <link href="{{base_url()}}assets/template/frontend/img/apple-touch-icon.png" rel="apple-touch-icon">
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+  <!-- Vendor CSS Files -->
+  <link href="{{base_url()}}assets/template/frontend/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{base_url()}}assets/template/frontend/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <!-- Template Main CSS File -->
+  <link href="{{base_url()}}assets/template/frontend/css/style.css" rel="stylesheet">
+  {% endblock %}
+
+  <!-- =======================================================
+  * Template Name: FlexStart - v1.1.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+<body>
+  <main id="main">
+      <div class="p-3">
+        <div class="values m-auto">
+        <div class="d-flex justify-content-center">
+          <div class="row mt-4">
+            <div class="col-lg-10">
+              <div class="box">
+                <img src="{{base_url()}}assets/images/{{image}}" class="img-fluid" alt="">
+                <h3 class="{{(status == false ? 'text-danger' : '')}}">{{title}}</h3>
+                <p class="text-muted">{{body}}</p>
+                <a href="{{base_url()}}" id="submit" class="btn {{(status == false ? 'btn-outline-secondary' : 'btn-outline-primary')}} w-100">Kembali ke Dashboard</a>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </main><!-- End #main -->
+
+  <!-- jQuery -->
+  <script src="{{base_url()}}assets/template/frontend/js/jquery.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="{{base_url()}}assets/template/frontend/js/main.js"></script>
+
+  <script>
+  </script>
+</body>
+
+</html>

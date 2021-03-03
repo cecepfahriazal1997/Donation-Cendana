@@ -26,6 +26,9 @@
   <link href="{{base_url()}}assets/template/frontend/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
   <!-- Template Main CSS File -->
   <link href="{{base_url()}}assets/template/frontend/css/style.css" rel="stylesheet">
+
+  <!-- Sandbox plugins -->
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{midtrans_key}}"></script>
   {% endblock %}
 
   <!-- =======================================================
@@ -199,7 +202,7 @@
                 <h4><span style="font-weight: bold; color: #4154f1">Rp. 100.000</span></h4>
               </div>
             </div>
-            <form action="forms/contact.php" method="post" class="php-email-form">
+            <form id="form" method="post" class="php-email-form" onsubmit="payment(); return false;">
               <div class="row gy-4">
 
                 <div class="col-md-6">
@@ -207,14 +210,18 @@
                 </div>
 
                 <div class="col-md-6 ">
-                  <input type="email" class="form-control" name="email" placeholder="Masukan email ..." required>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Masukan email ..." required>
+                </div>
+
+                <div class="col-md-12 ">
+                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Masukan no. telepon ..." required>
                 </div>
 
                 <div class="input-group">
                   <div class="input-group-prepend">
                     <span class="input-group-text">Rp.</span>
                   </div>
-                  <input type="text" class="form-control form-prepend" placeholder="Masukan nominal ...">
+                  <input type="text" class="form-control form-prepend" id="amount" name="amount" placeholder="Masukan nominal ..." required>
                 </div>
 
                 <div class="col-md-12">
@@ -223,11 +230,7 @@
                 </div>
 
                 <div class="col-md-12 text-center">
-                  <div class="loading">Loading</div>
-                  <div class="error-message"></div>
-                  <div class="sent-message">Your message has been sent. Thank you!</div>
-
-                  <button type="submit" class="w-100">Lanjutkan Pembayaran</button>
+                  <button type="submit" id="submit" class="w-100">Lanjutkan Pembayaran</button>
                 </div>
               </div>
             </form>
@@ -576,11 +579,17 @@
   <!-- Vendor JS Files -->
   <script src="{{base_url()}}assets/template/frontend/vendor/bootstrap/js/bootstrap.bundle.js"></script>
   <script src="{{base_url()}}assets/template/frontend/vendor/aos/aos.js"></script>
-  <script src="{{base_url()}}assets/template/frontend/vendor/php-email-form/validate.js"></script>
   <script src="{{base_url()}}assets/template/frontend/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="{{base_url()}}assets/template/frontend/vendor/purecounter/purecounter.js"></script>
   <script src="{{base_url()}}assets/template/frontend/vendor/isotope-layout/isotope.pkgd.min.js"></script>
   <script src="{{base_url()}}assets/template/frontend/vendor/glightbox/js/glightbox.min.js"></script>
+  
+  <!-- jQuery -->
+  <script src="{{base_url()}}assets/template/frontend/js/jquery.min.js"></script>
+  
+  <!-- Input Mask -->
+  <script src="{{base_url()}}assets/template/frontend/js/jquery.mask.js"></script>
+  <script src="{{base_url()}}assets/template/frontend/js/jquery.mask.min.js"></script>
 
   <!-- Template Main JS File -->
   <script src="{{base_url()}}assets/template/frontend/js/main.js"></script>
@@ -588,6 +597,11 @@
   <!-- Tree Family JS File -->
   <script src="{{base_url()}}assets/template/frontend/js/orgchart.js"></script>
   <script>
+      $(document).ready(function(){
+        $('#phone').mask("999-9999-9999");
+        $('#amount').mask("#.##0", {reverse: true});
+      });
+
       var chart = new OrgChart(document.getElementById("orgchart"), {
           mouseScrool: OrgChart.action.none,
           enableDragDrop : false,
@@ -609,6 +623,43 @@
               { id: 10, pid: 7, tags: ["Anak"], name: "Eli Palmer", title: "Anak", img: "https://cdn.balkan.app/shared/10.jpg" }
           ]
       });
+
+      function payment() {
+          $('#amount').unmask();
+          $('#phone').unmask();
+          var form_data = new FormData(document.getElementById('form'));
+          $.ajax({
+              url: "{{base_url()}}api/frontend/front/generateToken",
+              type: "POST",
+              dataType: "JSON",
+              data: form_data,
+              processData: false,
+              contentType: false,
+              beforeSend: function() {
+                $('#submit').html('Sedang Memproses ...');
+                $('#submit').prop('disabled', true);
+                $('#submit').attr('disabled', true);
+              },
+              success: function (data) {
+                $('#phone').mask("999-9999-9999");
+                $('#amount').mask("#.##0", {reverse: true});
+                $('#submit').html('Lanjutkan Pembayaran');
+                $('#submit').removeProp('disabled');
+                $('#submit').removeAttr('disabled');
+                  if (data.status) {
+                    snap.pay(data.token);
+                  } else {
+                  }
+              },
+              error: function() {
+                $('#phone').mask("999-9999-9999");
+                $('#amount').mask("#.##0", {reverse: true});
+                $('#submit').html('Lanjutkan Pembayaran');
+                $('#submit').removeProp('disabled');
+                $('#submit').removeAttr('disabled');
+              }
+          });
+      }
   </script>
 </body>
 

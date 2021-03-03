@@ -8,7 +8,8 @@
 		"twig/twig": "^3.0",
 		"vlucas/phpdotenv": "^4.0",
 		"jenssegers/agent": "^2.6",
-		"phpoffice/phpspreadsheet": "^1.8"
+		"phpoffice/phpspreadsheet": "^1.8",
+		"veritrans/veritrans-php": "^1.2"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "1.1.*"
