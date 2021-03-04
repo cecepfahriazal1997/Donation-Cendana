@@ -1,13 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use chriskacerguis\RestServer\RestController;
 
-class General extends CI_Controller {
+class General extends RestController {
     public function __construct() {
 		parent::__construct();
         $this->user = $this->auth->validateUserToken();
 	}
 
-	public function listProvince() {
+	public function listProvince_get() {
 		$response		= array();
 		$list			= $this->general->fetchListData('province', null, 'id, name as text');
 		if (!empty($list)) {
@@ -18,12 +19,12 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listCity() {
+	public function listCity_get() {
 		$response		= array();
-		$parentId		= $this->input->get('parent_id');
+		$parentId		= $this->get('parent_id');
 		$list			= $this->general->fetchListData('city', array('province_id' => $parentId), 'id, name as text');
 		if (!empty($list)) {
 			$response['status']		= true;
@@ -33,12 +34,12 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listDistrict() {
+	public function listDistrict_get() {
 		$response		= array();
-		$parentId		= $this->input->get('parent_id');
+		$parentId		= $this->get('parent_id');
 		$list			= $this->general->fetchListData('district', array('city_id' => $parentId), 'id, name as text');
 		if (!empty($list)) {
 			$response['status']		= true;
@@ -48,12 +49,12 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listVillage() {
+	public function listVillage_get() {
 		$response		= array();
-		$parentId		= $this->input->get('parent_id');
+		$parentId		= $this->get('parent_id');
 		$list			= $this->general->fetchListData('village', array('district_id' => $parentId), 'id, name as text');
 		if (!empty($list)) {
 			$response['status']		= true;
@@ -63,10 +64,10 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listReligion() {
+	public function listReligion_get() {
 		$response		= array();
 		$list			= $this->general->fetchListData('religion', null, 'id, name as text');
 		if (!empty($list)) {
@@ -77,10 +78,10 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listEducation() {
+	public function listEducation_get() {
 		$response		= array();
 		$list			= $this->general->fetchListData('education', null, 'id, name as text');
 		if (!empty($list)) {
@@ -91,10 +92,10 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listProfession() {
+	public function listProfession_get() {
 		$response		= array();
 		$list			= $this->general->fetchListData('profession', null, 'id, name as text');
 		if (!empty($list)) {
@@ -105,10 +106,10 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listStatus() {
+	public function listStatus_get() {
 		$response		= array();
 		$list			= $this->general->fetchListData('family_status', null, 'id, name as text');
 		if (!empty($list)) {
@@ -119,10 +120,10 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listStatusMarital() {
+	public function listStatusMarital_get() {
 		$response		= array();
 		$list			= $this->general->fetchListData('marital_status', null, 'id, name as text');
 		if (!empty($list)) {
@@ -133,6 +134,6 @@ class General extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 }

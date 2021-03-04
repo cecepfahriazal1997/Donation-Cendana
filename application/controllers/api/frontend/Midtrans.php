@@ -1,21 +1,35 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use chriskacerguis\RestServer\RestController;
 /**
  * Midtrans controller.
  * 
  * @author Cecep Rokani
  */
 
-class Midtrans extends CI_Controller {
+class Midtrans extends RestController {
 	function __construct() {
         // Construct the parent class
 		parent::__construct();
 		$this->load->model('MidtransModel', 'model');
 	}
 
-	public function notification() {
-		$response		= array();
-		$synchronizeData = $this->model->notification();
+    public function generateToken_post() {
+        $post           = $this->input->post(null, true);
+
+        $name           = $this->post('name');
+        $email          = $this->post('email');
+        $phone          = $this->post('phone');
+        $amount         = $this->post('amount');
+        $message        = $this->post('message');
+
+        $response       = $this->model->generateToken($name, $email, $phone, $amount, $message);
+		$this->response($response, 200);
+    }
+
+	public function notification_get() {
+		$response			= array();
+		$synchronizeData 	= $this->model->notification();
 		if ($synchronizeData) {
 			$response['status']		= true;
 			$response['message']	= 'Billing data synchronized successfully !';
@@ -24,12 +38,11 @@ class Midtrans extends CI_Controller {
 			$response['message']	= 'Billing data failed to synchronize !';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function finish() {
-		$get				    = $this->input->get(null, true);
-		$orderId			    = $get['order_id'];
+	public function finish_get() {
+		$orderId			    = $this->get('order_id');
 		$dataTrx			    = $this->model->getBillByOrderId($orderId);
 		
 		$data['transaction']	= $dataTrx;
@@ -40,9 +53,8 @@ class Midtrans extends CI_Controller {
         $this->twig->display('frontend/notification_midtrans', $data);
 	}
 
-	public function unfinish() {
-		$get				= $this->input->get(null, true);
-		$orderId			= $get['order_id'];
+	public function unfinish_get() {
+		$orderId			= $this->get('order_id');
 		$dataTrx			= $this->model->getBillByOrderId($orderId);
 		
 		$data['transaction']	= $dataTrx;
@@ -53,9 +65,8 @@ class Midtrans extends CI_Controller {
         $this->twig->display('frontend/notification_midtrans', $data);
 	}
 
-	public function error() {
-		$get				    = $this->input->get(null, true);
-		$orderId			    = $get['order_id'];
+	public function error_get() {
+		$orderId				= $this->get('order_id');
 		$dataTrx			    = $this->model->getBillByOrderId($orderId);
 		
 		$data['transaction']	= $dataTrx;

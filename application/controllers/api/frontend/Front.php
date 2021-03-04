@@ -1,23 +1,32 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use chriskacerguis\RestServer\RestController;
 
-class Front extends CI_Controller {
+class Front extends RestController {
     public function __construct() {
         parent::__construct();
         $this->load->model('MidtransModel', 'midtrans');
+        $this->load->model('DonationModel', 'donation');
     }
 
-    public function generateToken() {
-        $post           = $this->input->post(null, true);
+    public function listDonation_get() {
+        $response       = array();
+        $list           = $this->donation->getDonationUsers();
+        if (!empty($list)) {
+            $tmpResult              = array();
+            foreach ($list as $row) {
+                $row['amount']          = number_format($row['amount'], 0, ',', '.');
+                $row['elapsed_time']    = $this->general->timeElapsedString($row['created']);
+                $tmpResult[]            = $row;
+            }
+            $response['status']     = true;
+            $response['data']       = $tmpResult;
+        } else {
+            $response['status']     = false;
+            $response['message']    = "Belum ada yang memberikan donasi saat ini.";
+        }
 
-        $name           = $post['name'];
-        $email          = $post['email'];
-        $phone          = $post['phone'];
-        $amount         = $post['amount'];
-        $message        = $post['message'];
-
-        $token          = $this->midtrans->generateToken($name, $email, $phone, $amount, $message);
-        exit(json_encode($token));
+		$this->response($response, 200);
     }
 }
 ?>

@@ -1,14 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
+use chriskacerguis\RestServer\RestController;
 
-class Family extends CI_Controller {
+class Family extends RestController {
     public function __construct() {
 		parent::__construct();
         $this->load->model('FamilyModel', 'model');
         $this->user = $this->auth->validateUserToken();
 	}
 	
-	public function listCardFamily() {
+	public function listCardFamily_get() {
 		$response		= array();
 		$list			= $this->model->listCardFamily();
 		if (!empty($list)) {
@@ -40,11 +41,11 @@ class Family extends CI_Controller {
 			$response['status']		= false;
 			$response['message']	= 'Belum ada riwayat Kartu Keluarga.';
 		}
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function saveCardFamily() {
-		$post			= $this->input->post(null, true);
+	public function saveCardFamily_post() {
+		$post			= $this->post(null, true);
 		$id				= $post['id'];
 		$number			= $post['number'];
 		$name			= $post['name'];
@@ -116,7 +117,7 @@ class Family extends CI_Controller {
         ];
 
 
-        $this->form_validation->set_data($this->input->post());
+        $this->form_validation->set_data($this->post());
         $this->form_validation->set_rules($validation_config);
 
         if ($this->form_validation->run() === false) {
@@ -155,11 +156,11 @@ class Family extends CI_Controller {
 			}
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function deleteCardFamily() {
-		$id			= $this->input->post('id');
+	public function deleteCardFamily_post() {
+		$id			= $this->post('id');
 		$response	= array();
 
 		if (!empty($id)) {
@@ -175,12 +176,13 @@ class Family extends CI_Controller {
 			$response['status']		= false;
 			$response['message']	= 'Data gagal dihapus!';
 		}
-		exit(json_encode($response));
+
+		$this->response($response, 200);
 	}
 	
-	public function listFamily() {
+	public function listFamily_get() {
 		$response		= array();
-		$parentId		= $this->input->get('parent_id');
+		$parentId		= $this->get('parent_id');
 		$list			= $this->model->listFamily($parentId);
 		if (!empty($list)) {
 			$result		= array();
@@ -212,11 +214,11 @@ class Family extends CI_Controller {
 			$response['status']		= false;
 			$response['message']	= 'Belum ada riwayat Anggota Keluarga.';
 		}
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function saveFamily() {
-		$post				= $this->input->post(null, true);
+	public function saveFamily_post() {
+		$post				= $this->post(null, true);
 		$id					= $post['id'];
 		$cardId				= $post['family_card_id'];
 		$number				= $post['number'];
@@ -302,7 +304,7 @@ class Family extends CI_Controller {
         ];
 
 
-        $this->form_validation->set_data($this->input->post());
+        $this->form_validation->set_data($this->post());
         $this->form_validation->set_rules($validation_config);
 
         if ($this->form_validation->run() === false) {
@@ -351,11 +353,11 @@ class Family extends CI_Controller {
 			}
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function deleteFamily() {
-		$id			= $this->input->post('id');
+	public function deleteFamily_post() {
+		$id			= $this->post('id');
 		$response	= array();
 
 		if (!empty($id)) {
@@ -371,12 +373,12 @@ class Family extends CI_Controller {
 			$response['status']		= false;
 			$response['message']	= 'Data gagal dihapus!';
 		}
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 
-	public function listParent() {
+	public function listParent_get() {
 		$response		= array();
-		$id				= $this->input->get('id');
+		$id				= $this->get('id');
 		$list			= $this->model->listMemberFamily($id);
 		if (!empty($list)) {
 			$tmp		= array();
@@ -393,6 +395,6 @@ class Family extends CI_Controller {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		exit(json_encode($response));
+		$this->response($response, 200);
 	}
 }
