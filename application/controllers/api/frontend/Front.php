@@ -20,6 +20,7 @@ class Front extends CI_Controller {
             }
             $response['status']     = true;
             $response['data']       = $tmpResult;
+            $response['total']      = number_format(array_sum(array_column($list, 'amount')), 0, ',', '.');
         } else {
             $response['status']     = false;
             $response['message']    = "Belum ada yang memberikan donasi saat ini.";

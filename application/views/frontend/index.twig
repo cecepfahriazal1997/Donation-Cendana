@@ -130,7 +130,7 @@
                 <h4>Donasi yang telah terkumpul</h4>
               </div>
               <div class="col-12 col-md-12 mb-3">
-                <h4><span style="font-weight: bold; color: #4154f1">Rp. 100.000</span></h4>
+                <h4><span style="font-weight: bold; color: #4154f1" id="current-donation"></span></h4>
               </div>
             </div>
             <form id="form" method="post" class="php-email-form" onsubmit="payment(); return false;">
@@ -599,6 +599,7 @@
                                 </div>`;
                 }
                 $('#list-donation').html(child);
+                $('#current-donation').html('Rp. ' + data.total);
               },
               error: function(err) {
                   alert(err);
