@@ -60,6 +60,10 @@ class FamilyModel extends CI_Model {
         return $this->db->get('family')->result_array();
     }
 
+    public function countMemberFamily() {
+        return $this->db->count_all_results('family');
+    }
+
     public function saveAccount($username, $password, $familyId, $name, $email = null, $phone = null, $address = null) {
         $param                 = array();
         $param['username']     = $username;

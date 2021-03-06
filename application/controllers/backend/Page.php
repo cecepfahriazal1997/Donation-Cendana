@@ -8,12 +8,41 @@ class Page extends CI_Controller {
 		if (!$this->session->userdata('id'))
 			redirect('backend/auth');
 
+		$this->load->model('FamilyModel', 'family');
+		$this->load->model('DonationModel', 'donation');
 		$this->twig->addGlobal('name', $this->session->userdata('name'));
 		$this->twig->addGlobal('image', base_url() . 'assets/dist/img/default-user.png');
 	}
 	
 	public function index() {
-		$data['title']	    = "Dashboard";
+		$statistic					= array();
+		$periode					= $this->donation->getPeriode();
+		$listDonation				= $this->donation->getListDonation();
+		$listDonationByMonth		= $this->donation->getListDonationByMonth();
+		$tmpDonation				= array();
+		$diagram					= array();
+
+		foreach ($listDonation as $row) {
+			$row['gross_amount']	= number_format($row['gross_amount'], 0, ',', '.');
+			$row['color']			= $this->general->randomColor();
+			$tmpDonation[]			= $row;
+		}
+
+		foreach ($listDonationByMonth as $row) {
+			$row['month']			= date('F', strtotime($row['created']));
+			$row['color']			= $this->general->randomColor();
+			$diagram[]				= $row;
+		}
+
+		$statistic['total_family']	= $this->family->countMemberFamily();
+		$statistic['total_donatur']	= $this->donation->countDonatur();
+		$statistic['total_donation']= number_format($this->donation->countDonation(), 0, ',', '.');
+		$statistic['donation']		= $tmpDonation;
+		$statistic['periode']		= array('start' => date('d M, Y', strtotime($periode->min_date)), 'end' => date('d M, Y', strtotime($periode->max_date)));
+		$statistic['month']			= json_encode(array_column($diagram, 'month'));
+		$statistic['diagram']		= json_encode($diagram);
+		$data['statistic']			= $statistic;
+		$data['title']	    		= "Dashboard";
 		$this->twig->display('backend/components/dashboard', $data);
 	}
 	

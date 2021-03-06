@@ -77,5 +77,9 @@ class GeneralModel extends CI_Model {
         echo json_encode($data);
         exit();
     }
+	
+	public function randomColor() {
+		return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
+	}
 }
 ?>
