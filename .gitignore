@@ -20,7 +20,9 @@ application/logs/*
 
 application/session/*
 composer.lock
-/configuration/*
+configuration
+configuration/*
+!configuration/default
 
 # IDE Files
 #-------------------------
