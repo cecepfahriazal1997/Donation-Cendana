@@ -20,7 +20,7 @@ application/logs/*
 
 application/session/*
 composer.lock
-*.env
+/configuration/*
 
 # IDE Files
 #-------------------------
