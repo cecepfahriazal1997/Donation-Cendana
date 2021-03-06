@@ -1,5 +1,5 @@
-DB_HOSTNAME     = localhost
-DB_USERNAME     = root
-DB_PASSWORD     = 
-DB_NAME         = donasi
-DB_CONNECTION   = mysqli
+DB_CONNECTION       = mysqli
+DB_HOST             = localhost
+DB_DATABASE         = donasi
+DB_USERNAME         = root
+DB_PASSWORD         = 

@@ -1,4 +1,5 @@
 <?php
+  ob_start();
 /**
  * CodeIgniter
  *
@@ -53,7 +54,7 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
-	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define('ENVIRONMENT', 'development');
 
 /*
  *---------------------------------------------------------------
@@ -313,3 +314,4 @@ switch (ENVIRONMENT)
  * And away we go...
  */
 require_once BASEPATH.'core/CodeIgniter.php';
+ob_end_flush();
