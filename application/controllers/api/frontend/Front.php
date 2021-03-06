@@ -1,15 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-use chriskacerguis\RestServer\RestController;
 
-class Front extends RestController {
+class Front extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->model('MidtransModel', 'midtrans');
         $this->load->model('DonationModel', 'donation');
     }
 
-    public function listDonation_get() {
+    public function listDonation() {
         $response       = array();
         $list           = $this->donation->getDonationUsers();
         if (!empty($list)) {
@@ -26,7 +25,7 @@ class Front extends RestController {
             $response['message']    = "Belum ada yang memberikan donasi saat ini.";
         }
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
     }
 }
 ?>

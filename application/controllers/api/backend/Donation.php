@@ -1,15 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-use chriskacerguis\RestServer\RestController;
 
-class Donation extends RestController {
+class Donation extends CI_Controller {
+
     public function __construct() {
 		parent::__construct();
         $this->load->model('DonationModel', 'model');
         $this->user = $this->auth->validateUserToken();
 	}
 
-    public function listUsers_get() {
+    public function listUsers() {
         $response       = array();
         $list           = $this->model->getDonationUsers();
         if (!empty($list)) {
@@ -29,7 +29,7 @@ class Donation extends RestController {
             $response['message']    = "Belum ada yang memberikan donasi saat ini.";
         }
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
     }
 }
 ?>

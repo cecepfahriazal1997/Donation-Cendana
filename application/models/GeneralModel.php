@@ -70,6 +70,12 @@ class GeneralModel extends CI_Model {
 
 		if (!$full) $string = array_slice($string, 0, 1);
 		return $string ? implode(', ', $string) . ' yang lalu' : 'baru saja';
-	}
+    }
+    
+    public function response($data, $http_code = 200){
+        header("Content-Type: application/json");
+        echo json_encode($data);
+        exit();
+    }
 }
 ?>

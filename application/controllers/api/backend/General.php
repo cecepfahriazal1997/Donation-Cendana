@@ -1,14 +1,13 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-use chriskacerguis\RestServer\RestController;
 
-class General extends RestController {
+class General extends CI_Controller {
     public function __construct() {
 		parent::__construct();
         $this->user = $this->auth->validateUserToken();
 	}
 
-	public function listProvince_get() {
+	public function listProvince() {
 		$response		= array();
 		$list			= $this->general->fetchListData('province', null, 'id, name as text');
 		if (!empty($list)) {
@@ -19,12 +18,12 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listCity_get() {
+	public function listCity() {
 		$response		= array();
-		$parentId		= $this->get('parent_id');
+		$parentId		= $this->input->get('parent_id');
 		$list			= $this->general->fetchListData('city', array('province_id' => $parentId), 'id, name as text');
 		if (!empty($list)) {
 			$response['status']		= true;
@@ -34,12 +33,12 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listDistrict_get() {
+	public function listDistrict() {
 		$response		= array();
-		$parentId		= $this->get('parent_id');
+		$parentId		= $this->input->get('parent_id');
 		$list			= $this->general->fetchListData('district', array('city_id' => $parentId), 'id, name as text');
 		if (!empty($list)) {
 			$response['status']		= true;
@@ -49,12 +48,12 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listVillage_get() {
+	public function listVillage() {
 		$response		= array();
-		$parentId		= $this->get('parent_id');
+		$parentId		= $this->input->get('parent_id');
 		$list			= $this->general->fetchListData('village', array('district_id' => $parentId), 'id, name as text');
 		if (!empty($list)) {
 			$response['status']		= true;
@@ -64,10 +63,10 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listReligion_get() {
+	public function listReligion() {
 		$response		= array();
 		$list			= $this->general->fetchListData('religion', null, 'id, name as text');
 		if (!empty($list)) {
@@ -78,10 +77,10 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listEducation_get() {
+	public function listEducation() {
 		$response		= array();
 		$list			= $this->general->fetchListData('education', null, 'id, name as text');
 		if (!empty($list)) {
@@ -92,10 +91,10 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listProfession_get() {
+	public function listProfession() {
 		$response		= array();
 		$list			= $this->general->fetchListData('profession', null, 'id, name as text');
 		if (!empty($list)) {
@@ -106,10 +105,10 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listStatus_get() {
+	public function listStatus() {
 		$response		= array();
 		$list			= $this->general->fetchListData('family_status', null, 'id, name as text');
 		if (!empty($list)) {
@@ -120,10 +119,10 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listStatusMarital_get() {
+	public function listStatusMarital() {
 		$response		= array();
 		$list			= $this->general->fetchListData('marital_status', null, 'id, name as text');
 		if (!empty($list)) {
@@ -134,6 +133,6 @@ class General extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 }

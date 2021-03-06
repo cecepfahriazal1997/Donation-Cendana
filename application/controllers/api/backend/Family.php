@@ -1,15 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-use chriskacerguis\RestServer\RestController;
 
-class Family extends RestController {
+class Family extends CI_Controller {
     public function __construct() {
 		parent::__construct();
         $this->load->model('FamilyModel', 'model');
         $this->user = $this->auth->validateUserToken();
 	}
 	
-	public function listCardFamily_get() {
+	public function listCardFamily() {
 		$response		= array();
 		$list			= $this->model->listCardFamily();
 		if (!empty($list)) {
@@ -41,11 +40,11 @@ class Family extends RestController {
 			$response['status']		= false;
 			$response['message']	= 'Belum ada riwayat Kartu Keluarga.';
 		}
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function saveCardFamily_post() {
-		$post			= $this->post(null, true);
+	public function saveCardFamily() {
+		$post			= $this->input->post(null, true);
 		$id				= $post['id'];
 		$number			= $post['number'];
 		$name			= $post['name'];
@@ -117,7 +116,7 @@ class Family extends RestController {
         ];
 
 
-        $this->form_validation->set_data($this->post());
+        $this->form_validation->set_data($this->input->post());
         $this->form_validation->set_rules($validation_config);
 
         if ($this->form_validation->run() === false) {
@@ -156,11 +155,11 @@ class Family extends RestController {
 			}
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function deleteCardFamily_post() {
-		$id			= $this->post('id');
+	public function deleteCardFamily() {
+		$id			= $this->input->post('id');
 		$response	= array();
 
 		if (!empty($id)) {
@@ -177,12 +176,12 @@ class Family extends RestController {
 			$response['message']	= 'Data gagal dihapus!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 	
-	public function listFamily_get() {
+	public function listFamily() {
 		$response		= array();
-		$parentId		= $this->get('parent_id');
+		$parentId		= $this->input->get('parent_id');
 		$list			= $this->model->listFamily($parentId);
 		if (!empty($list)) {
 			$result		= array();
@@ -214,11 +213,11 @@ class Family extends RestController {
 			$response['status']		= false;
 			$response['message']	= 'Belum ada riwayat Anggota Keluarga.';
 		}
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function saveFamily_post() {
-		$post				= $this->post(null, true);
+	public function saveFamily() {
+		$post				= $this->input->post(null, true);
 		$id					= $post['id'];
 		$cardId				= $post['family_card_id'];
 		$number				= $post['number'];
@@ -304,7 +303,7 @@ class Family extends RestController {
         ];
 
 
-        $this->form_validation->set_data($this->post());
+        $this->form_validation->set_data($this->input->post());
         $this->form_validation->set_rules($validation_config);
 
         if ($this->form_validation->run() === false) {
@@ -353,11 +352,11 @@ class Family extends RestController {
 			}
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function deleteFamily_post() {
-		$id			= $this->post('id');
+	public function deleteFamily() {
+		$id			= $this->input->post('id');
 		$response	= array();
 
 		if (!empty($id)) {
@@ -373,12 +372,12 @@ class Family extends RestController {
 			$response['status']		= false;
 			$response['message']	= 'Data gagal dihapus!';
 		}
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 
-	public function listParent_get() {
+	public function listParent() {
 		$response		= array();
-		$id				= $this->get('id');
+		$id				= $this->input->get('id');
 		$list			= $this->model->listMemberFamily($id);
 		if (!empty($list)) {
 			$tmp		= array();
@@ -395,6 +394,6 @@ class Family extends RestController {
 			$response['message']	= 'Data tidak ditemukan!';
 		}
 
-		$this->response($response, 200);
+		$this->general->response($response, 200);
 	}
 }
