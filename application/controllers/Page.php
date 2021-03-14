@@ -11,4 +11,8 @@ class Page extends CI_Controller {
 		$data['midtrans_key']	= $this->midtrans->clientKey;
 		$this->twig->display('frontend/index', $data);
 	}
+	
+	public function events() {
+		$this->twig->display('frontend/events');
+	}
 }

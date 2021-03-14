@@ -1703,7 +1703,7 @@ section {
 }
 
 .blog .entry .entry-img {
-  max-height: 440px;
+  max-height: 600px;
   margin: -30px -30px 20px -30px;
   overflow: hidden;
 }
