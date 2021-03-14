@@ -110,10 +110,40 @@
                 <h4>Daftar yang telah berdonasi</h4>
               </div>
               <div class="col-12 col-md-12 mb-3">
-                <h4><span style="font-weight: bold; color: #4154f1" id="total-donation">0 Orang</span></h4>
+                <h4><span style="font-weight: bold; color: #4154f1" id="total-donation">{{donation.data | length}} Orang</span></h4>
               </div>
             </div>
             <div id="list-donation">
+            {% if donation.data | length > 0 %}
+            {% for item in donation.data %}
+              <div class="row gy-4">
+                <div class="col-md-12">
+                  <div class="info-box border-bottom-gray">
+                    <div class="d-flex">
+                      <img src="{{base_url()}}assets/template/frontend/img/blog/comments-2.jpg"
+                        class="rounded-img" alt="">
+                      <div class="d-block w-100" style="margin: 0px 16px !important">
+                        <div class="d-flex justify-content-between">
+                          <h4 class="mb-0 mt-3">{{item.name}}</h4>
+                          <span class="text-muted mt-3 small" style="text-align: right !important;">{{item.elapsed_time}}</span>
+                        </div>
+                        <span class="text-muted">Berdonasi sebesar <h3 class="ml-3 mt-0">Rp. {{item.amount}}</h3></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            {% else %}
+            <div class="row gy-4 mt-2">
+              <div class="col-md-8">
+                <img src="{{base_url()}}assets/template/frontend/img/values.png" class="img-fluid" alt="">
+                <div class="d-block mt-4 text-center">
+                  <span class="text-muted small">Belum ada yang memberikan donasi saat ini.</span>
+                </div>
+              </div>
+            </div>
+            {% endif %}
             </div>
             <div class="d-flex mt-2 justify-content-between">
               <div></div>
@@ -130,7 +160,7 @@
                 <h4>Donasi yang telah terkumpul</h4>
               </div>
               <div class="col-12 col-md-12 mb-3">
-                <h4><span style="font-weight: bold; color: #4154f1" id="current-donation"></span></h4>
+                <h4><span style="font-weight: bold; color: #4154f1" id="current-donation">Rp. {{donation.total}}</span></h4>
               </div>
             </div>
             <form id="form" method="post" class="php-email-form" onsubmit="payment(); return false;">
@@ -206,7 +236,7 @@
           <p>Cek galeri kita</p>
         </header>
 
-        <div class="row" data-aos="fade-up" data-aos-delay="100">
+        <div class="row d-none" data-aos="fade-up" data-aos-delay="100">
           <div class="col-lg-12 d-flex justify-content-center">
             <ul id="portfolio-flters">
               <li data-filter="*" class="filter-active">All</li>
@@ -217,154 +247,23 @@
           </div>
         </div>
 
-        <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
+        <div id="list-gallery" class="row gy-4 portfolio-container" data-aos="fade-up">
+          {% for row in gallery %}
+          <div class="col-lg-4 col-md-6 portfolio-item">
+            <div class="portfolio-wrap" style="max-height: 400px">
+              <img src="{{row.file}}" class="img-fluid" alt="">
               <div class="portfolio-info">
-                <h4>App 1</h4>
-                <p>App</p>
+                <h4>Gallery ${i + 1}</h4>
                 <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-1.jpg"
+                  <a href="{{row.file}}"
                     data-gallery="portfolioGallery" class="portfokio-lightbox" title="App 1"><i
                       class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
                 </div>
               </div>
             </div>
           </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Web 3</h4>
-                <p>Web</p>
-                <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-2.jpg"
-                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="Web 3"><i
-                      class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>App 2</h4>
-                <p>App</p>
-                <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-3.jpg"
-                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="App 2"><i
-                      class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Card 2</h4>
-                <p>Card</p>
-                <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-4.jpg"
-                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="Card 2"><i
-                      class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Web 2</h4>
-                <p>Web</p>
-                <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-5.jpg"
-                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="Web 2"><i
-                      class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>App 3</h4>
-                <p>App</p>
-                <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-6.jpg"
-                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="App 3"><i
-                      class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Card 1</h4>
-                <p>Card</p>
-                <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-7.jpg"
-                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="Card 1"><i
-                      class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Card 3</h4>
-                <p>Card</p>
-                <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-8.jpg"
-                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="Card 3"><i
-                      class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
-              <img src="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
-              <div class="portfolio-info">
-                <h4>Web 3</h4>
-                <p>Web</p>
-                <div class="portfolio-links">
-                  <a href="{{base_url()}}assets/template/frontend/img/portfolio/portfolio-9.jpg"
-                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="Web 3"><i
-                      class="bi bi-search"></i></a>
-                  <a href="portfolio-details.html" title="More Details"><i class="bi bi-link"></i></a>
-                </div>
-              </div>
-            </div>
-          </div>
-
+          {% endfor %}
         </div>
-
       </div>
 
     </section><!-- End Portfolio Section -->
@@ -535,7 +434,6 @@
       $(document).ready(function(){
         $('#phone').mask("999-9999-9999");
         $('#amount').mask("#.##0", {reverse: true});
-        listDonation();
       });
 
       var chart = new OrgChart(document.getElementById("orgchart"), {
@@ -560,53 +458,6 @@
           ]
       });
 
-      function listDonation() {
-          $.ajax({
-              url: "{{base_url()}}api/frontend/front/listDonation",
-              type: "GET",
-              dataType: "JSON",
-              success: function(data) {
-                var child = '';
-                if (data.status) {
-                  $.each(data.data, function(i, item) {
-                    child += ` <div class="row gy-4">
-                                    <div class="col-md-12">
-                                      <div class="info-box border-bottom-gray">
-                                        <div class="d-flex">
-                                          <img src="{{base_url()}}assets/template/frontend/img/blog/comments-2.jpg"
-                                            class="rounded-img" alt="">
-                                          <div class="d-block w-100" style="margin: 0px 16px !important">
-                                            <div class="d-flex justify-content-between">
-                                              <h4 class="mb-0 mt-3">${item.name}</h4>
-                                              <span class="text-muted mt-3 small" style="text-align: right !important;">${item.elapsed_time}</span>
-                                            </div>
-                                            <span class="text-muted">Berdonasi sebesar <h3 class="ml-3 mt-0">Rp. ${item.amount}</h3></span>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                  </div>`;
-                  });
-                  $('#total-donation').html(data.data.length + " Orang");
-                } else {
-                  child = ` <div class="row gy-4 mt-2">
-                                  <div class="col-md-8">
-                                    <img src="{{base_url()}}assets/template/frontend/img/values.png" class="img-fluid" alt="">
-                                    <div class="d-block mt-4 text-center">
-                                      <span class="text-muted small">${data.message}</span>
-                                    </div>
-                                  </div>
-                                </div>`;
-                }
-                $('#list-donation').html(child);
-                $('#current-donation').html('Rp. ' + data.total);
-              },
-              error: function(err) {
-                  alert(err);
-              }
-          });
-      }
-      
       function payment() {
           $('#amount').unmask();
           $('#phone').unmask();

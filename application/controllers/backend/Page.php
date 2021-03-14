@@ -41,6 +41,7 @@ class Page extends CI_Controller {
 		$statistic['periode']		= array('start' => date('d M, Y', strtotime($periode->min_date)), 'end' => date('d M, Y', strtotime($periode->max_date)));
 		$statistic['month']			= json_encode(array_column($diagram, 'month'));
 		$statistic['diagram']		= json_encode($diagram);
+		$statistic['diagram_array']	= $diagram;
 		$data['statistic']			= $statistic;
 		$data['title']	    		= "Dashboard";
 		$this->twig->display('backend/components/dashboard', $data);
@@ -88,5 +89,11 @@ class Page extends CI_Controller {
 		$data['title']	    = "Laporan";
 		$data['currMenu']	= 'report';
 		$this->twig->display('backend/components/report/list', $data);
+	}
+	
+	public function gallery() {
+		$data['title']	    = "Data Galeri";
+		$data['currMenu']	= 'gallery';
+		$this->twig->display('backend/components/gallery/list', $data);
 	}
 }

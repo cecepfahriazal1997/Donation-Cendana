@@ -84,11 +84,11 @@
                             <!-- /.col -->
                             <div class="col-md-4">
                                 <p class="text-center">
-                                    <strong>Nominal Donasi</strong>
+                                    <strong>Total Donatur</strong>
                                 </p>
-                                {% for row in statistic.donation %}
+                                {% for row in statistic.diagram_array %}
                                 <div class="progress-group">
-                                    Rp. {{row.gross_amount}}
+                                    {{row.month}}
                                     <span class="float-right"><b>{{row.total}} Orang</b></span>
                                     <div class="progress progress-sm">
                                         <div class="progress-bar" style="width: 80%; background-color: {{row.color}}"></div>

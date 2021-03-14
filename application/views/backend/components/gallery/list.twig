@@ -1,0 +1,289 @@
+{% extends "backend/skeleton.twig" %}
+{% block additional_title %}{{title}}{% endblock %}
+{% block title_menu %}{{title}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{base_url()}}backend">Home</a></li>
+    <li class="breadcrumb-item active">{{title}}</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-right">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i>
+                    Tambah</a>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">No</th>
+                                    <th>Gambar</th>
+                                    <th style="width: 15%">Tanggal Upload</th>
+                                    <th style="width: 10%">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modal-default">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form id="form" method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Form Galeri</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <input type="hidden" id="id" name="id"/>
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="file" name="file" onchange="retrieveContentType(this)">
+                                        <label class="custom-file-label" for="file">Choose file</label>
+                                    </div>
+                                </div>
+                                <label for="file" class="text-muted">Ekstensi file yang diizinkan : <code>.jpg, .png</code></label>
+                                <a id="curr-file" class="btn btn-outline-primary btn-sm mt-2 btn-round btn-block d-none" target="_blank">Lihat File Sebelumnya</a>
+                            </div>
+                        </div>
+                        <div class="modal-footer justify-content-end">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                            <button type="submit" id="submit-upload" class="btn btn-primary">Simpan</button>
+                        </div>
+                    </form>
+                </div>
+                <!-- /.modal-content -->
+            </div>
+            <!-- /.modal-dialog -->
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script src="{{base_url()}}assets/template/backend/plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
+<script>
+    $(function () {
+        bsCustomFileInput.init();
+        list();
+
+        // form submit
+        $('#form').validate({
+            submitHandler: function () {
+                var form_data = new FormData(document.getElementById('form'));
+                $.ajax({
+                    url: "{{base_url()}}api/backend/gallery/save",
+                    type: "POST",
+                    dataType: "JSON",
+                    headers: {
+                        "Authorization": localStorage.getItem('key')
+                    },
+                    xhr: function () {
+                        var xhr = new window.XMLHttpRequest();
+                        //Upload progress
+                        xhr.upload.addEventListener("progress", function (evt) {
+                            if (evt.lengthComputable) {
+                                var percentComplete = Math.round((evt.loaded / evt.total) * 100);
+                                $('#submit-upload').html('Uploading ...' + percentComplete + '%');
+                            }
+                        }, false);
+                        return xhr;
+                    },
+                    data: form_data,
+                    processData: false,
+                    contentType: false,
+                    beforeSend: function() {
+                        $('#submit-upload').attr('disabled', true);
+                        $('#submit-upload').prop('disabled', true);
+                    },
+                    success: function (data) {
+                        $('#submit-upload').removeAttr('disabled');
+                        $('#submit-upload').removeProp('disabled');
+                        $('#submit-upload').html('Simpan');
+                        if (data.status) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Success!',
+                                html: data.message,
+                                showConfirmButton: true,
+                                timer: 1500
+                            });
+                            $("#form")[0].reset();
+                            $('#modal-default').modal('toggle');
+                            list();
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Oops!',
+                                html: data.message,
+                                showConfirmButton: true,
+                            });
+                        }
+                    },
+                    error: function() {
+                        $('#submit-upload').removeAttr('disabled');
+                        $('#submit-upload').removeProp('disabled');
+                    }
+                });
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+
+    function list() {
+        $.ajax({
+            url: "{{base_url()}}api/backend/gallery/list",
+            type: "GET",
+            dataType: "JSON",
+            headers: {
+                "Authorization": localStorage.getItem('key')
+            },
+            success: function (data) {
+                if ($.fn.DataTable.isDataTable('.table')) {
+                    $('.table').DataTable().destroy();
+                }
+                $('.table tbody').empty();
+                if (data.status) {
+                    $(".table").DataTable({
+                        data: data.data,
+                        aoColumns: [{
+                                mData: 'id'
+                            },
+                            {
+                                mData: 'file'
+                            },
+                            {
+                                mData: 'upload'
+                            },
+                            {
+                                mData: 'action'
+                            }
+                        ],
+                        responsive: true,
+                        lengthChange: false,
+                        autoWidth: false,
+                        info: true,
+                        ordering: false,
+                        language: {
+                            emptyTable: "Belum ada riwayat Galeri"
+                        }
+                    });
+                } else {
+                    $(".table").DataTable({
+                        language: {
+                            emptyTable: "Belum ada riwayat Galeri"
+                        }
+                    });
+                }
+            },
+            error: function (err) {
+                alert(err);
+            }
+        });
+    }
+
+    function deleteData(id) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Apakah kamu yakin ?',
+            text: "Kamu akan menghapus data yang terpilih",
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{base_url()}}api/backend/gallery/delete",
+                    type: "POST",
+                    dataType: "JSON",
+                    headers: {
+                        "Authorization": localStorage.getItem('key')
+                    },
+                    data: {
+                        id: id
+                    },
+                    success: function (data) {
+                        if (data.status) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            list();
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: data.message,
+                            });
+                        }
+                    },
+                    error: function (err) {
+                        alert(err);
+                    }
+                });
+            }
+        })
+    }
+    
+    function retrieveContentType(file) {
+        var extension_file = file.value.toLowerCase().split('.').pop();
+        var extImage	= ['jpg','jpeg','png'];
+        var size		= parseFloat(file.files[0].size/1000/1000).toFixed(1);
+
+        if (extImage.includes(extension_file)) {
+            if (size > 5) {
+                Swal.fire({
+                    position: 'center',
+                    icon: 'error',
+                    title: "Oops!",
+                    text: "Silahkan pilih file dengan ukuran tidak melebihi 5MB",
+                });
+                file.value="";
+            }
+        } else {
+            Swal.fire({
+                position: 'center',
+                icon: 'error',
+                title: "Oops!",
+                text: "Silahkan pilih file sesuai syarat & ketentuan yang berlaku",
+            });
+            file.value="";
+        }
+    }
+
+    function detail(id, file) {
+        $('#id').val(id);
+        $('#curr-file').attr('href', file);
+        $('#curr-file').prop('href', file);
+        $('#curr-file').removeClass('d-none');
+        $('#modal-default').modal('toggle');
+    }
+</script>
+{% endblock %}

@@ -98,6 +98,29 @@
             </a>
           </li>
           <li class="nav-item">
+            <a href="#" class="nav-link {{(currMenu == 'setting' ? 'active' : '')}}">
+              <i class="nav-icon fas fa-cogs"></i>
+              <p>
+                Setting
+                <span class="right badge badge-danger" id="total-donation"></span>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{base_url()}}backend/page/gallery" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Galeri</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{base_url()}}backend/page/events" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Kegiatan</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-item">
             <a href="{{base_url()}}backend/page/report" class="nav-link {{(currMenu == 'report' ? 'active' : '')}}">
               <i class="nav-icon fas fa-print"></i>
               <p>

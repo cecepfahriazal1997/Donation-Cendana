@@ -81,5 +81,31 @@ class GeneralModel extends CI_Model {
 	public function randomColor() {
 		return sprintf('#%06X', mt_rand(0, 0xFFFFFF));
 	}
+
+    public function uploadFile($path, $format="*") {
+        $response                       = array();
+        $fullPath                       = 'assets/' . $path;
+        $config['upload_path']          = $fullPath;
+        $config['allowed_types']        = $format;
+        $config['max_size']             = 5000;
+
+        // create folder if not exists
+        if (!is_dir($fullPath)) {
+            mkdir($fullPath);
+        }
+
+        $this->load->library('upload', $config);
+        if (!$this->upload->do_upload('file')){
+            $response['status']     = false;
+            $response['message']    = $this->upload->display_errors();
+        } else {
+            $data                   = $this->upload->data();
+            $response['status']     = true;
+            $response['data']       = $data;
+            $response['data']       = array_merge(array('file_url' => base_url() . $fullPath . '/' . $data['file_name']), $response['data']);
+        }
+
+        return $response;
+    }
 }
 ?>
