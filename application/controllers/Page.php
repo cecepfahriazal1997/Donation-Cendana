@@ -35,7 +35,7 @@ class Page extends CI_Controller {
                         $description = substr($description, 0, 100) . ' .....';
                     }
                 }
-				$param['id']			= $key + 1;
+				$param['id']			= $row['id'];
 				$param['title']			= $row['title'];
 				$param['description']	= $description;
 				if (empty($row['image']) || !is_file(str_replace(base_url(), '', $row['image'])))
