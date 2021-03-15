@@ -109,5 +109,16 @@ class GeneralModel extends CI_Model {
 
         return $response;
     }
+
+    public function clearStringromTags($text) {
+        $optionClear    = $text;
+        if (strpos($optionClear, 'url') === false && strpos($optionClear, 'src') === false && strpos($optionClear, 'href') === false) {
+            $optionClear = preg_replace('/\s+/', ' ', $optionClear);
+            $optionClear = strip_tags($optionClear);
+            $optionClear = str_replace('&nbsp;', ' ', $optionClear);
+        }
+
+        return $optionClear;
+    }
 }
 ?>

@@ -18,7 +18,7 @@ class Events extends CI_Controller {
 				$param['id']			= $key + 1;
 				$param['title']			= $row['title'];
 				$param['description']	= $row['description'];
-				if (empty($row['image']))
+				if (empty($row['image']) || !is_file(str_replace(base_url(), '', $row['image'])))
 					$row['image']			= base_url() . 'assets/images/cover.jpg';
 				$param['image']			= '<a href="' . $row['image'] . '" target="_blanl"><img src="' . $row['image'] . '" class="img-size-64" /></a>';
 				$param['upload']		= date('d M Y H:i', strtotime($row['create_at']));
