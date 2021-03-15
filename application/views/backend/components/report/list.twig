@@ -26,22 +26,10 @@
                                     <th style="width: 30%" class="text-right">Total Donasi</th>
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <td>1</td>
-                                    <td>12 Desember 2020</td>
-                                    <td class="text-right">Rp. 100.000</td>
-                                </tr>
-                                <tr>
-                                    <td>2</td>
-                                    <td>12 Desember 2020</td>
-                                    <td class="text-right">Rp. 150.000</td>
-                                </tr>
-                            </tbody>
                             <tfoot>
                                 <tr>
                                     <td colspan=2 class="text-right font-weight-bold">Total Semua Donasi</td>
-                                    <td class="text-right font-weight-bold">Rp. 250.000</td>
+                                    <td class="text-right font-weight-bold">Rp. <span id="total">0</span></td>
                                 </tr>
                             </tfoot>
                         </table>
@@ -55,5 +43,53 @@
 {% endblock %}
 {% block custom_js %}
 <script>
+    $(function () {
+        list();
+    });
+
+    function list() {
+        $.ajax({
+            url: "{{base_url()}}api/backend/donation/report",
+            type: "GET",
+            dataType: "JSON",
+            headers: {
+                "Authorization": localStorage.getItem('key')
+            },
+            success: function(data) {
+                if ($.fn.DataTable.isDataTable('.table')) {
+                    $('.table').DataTable().destroy();
+                }
+                $('.table tbody').empty();
+                if (data.status) {
+                    $(".table").DataTable({
+                        data: data.data,
+                        aoColumns: [
+                            { mData: 'id' },
+                            { mData: 'date' },
+                            { mData: 'amount' },
+                        ],
+                        responsive: true,
+                        lengthChange: false,
+                        autoWidth: false,
+                        info: true,
+                        ordering: false,
+                        language: {
+                            emptyTable: "Belum ada yang memberikan donasi saat ini."
+                        }
+                    });
+                    $('#total').html(data.total);
+                } else {
+                    $(".table").DataTable({
+                        language: {
+                            emptyTable: "Belum ada yang memberikan donasi saat ini."
+                        }
+                    });
+                }
+            },
+            error: function(err) {
+                alert(err);
+            }
+        });
+    }
 </script>
 {% endblock %}

@@ -6,10 +6,10 @@ class DonationModel extends CI_Model {
     }
 
     public function getDonationUsers() {
-        $this->db->select('id, name, email, phone, message, gross_amount as amount, created');
+        $this->db->select('id, name, email, phone, message, gross_amount as amount, transaction_time');
         $this->db->where('transaction_status', 'settlement');
         $this->db->where('fraud_status', 'accept');
-        $this->db->order_by('created', 'DESC');
+        $this->db->order_by('transaction_time', 'DESC');
         return $this->db->get('transaction')->result_array();
     }
 
@@ -52,5 +52,15 @@ class DonationModel extends CI_Model {
         $this->db->order_by('created', 'ASC');
         return $this->db->get('transaction')->result_array();
     }
+
+    public function getDonationByDate() {
+        $this->db->select('id, name, email, phone, message, SUM(gross_amount) as amount, transaction_time');
+        $this->db->where('transaction_status', 'settlement');
+        $this->db->where('fraud_status', 'accept');
+        $this->db->group_by('transaction_time');
+        $this->db->order_by('transaction_time', 'DESC');
+        return $this->db->get('transaction')->result_array();
+    }
+
 }
 ?>
