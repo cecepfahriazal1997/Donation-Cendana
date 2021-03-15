@@ -96,4 +96,18 @@ class Page extends CI_Controller {
 		$data['currMenu']	= 'gallery';
 		$this->twig->display('backend/components/gallery/list', $data);
 	}
+	
+	public function events() {
+		$data['title']	    = "Data Kegiatan";
+		$data['currMenu']	= 'events';
+		$this->twig->display('backend/components/events/list', $data);
+	}
+	
+	public function formEvents($id=null) {
+		$data['title']	    = "Kegiatan";
+		$data['currMenu']	= 'events';
+		if (!empty($id))
+			$data['detail']		= $this->general->fetchSingleData(array('id', $id), 'events');
+		$this->twig->display('backend/components/events/form', $data);
+	}
 }

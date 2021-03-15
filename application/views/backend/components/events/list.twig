@@ -1,0 +1,141 @@
+{% extends "backend/skeleton.twig" %}
+{% block additional_title %}{{title}}{% endblock %}
+{% block title_menu %}{{title}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{base_url()}}backend">Home</a></li>
+    <li class="breadcrumb-item active">{{title}}</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-right">
+                <a class="btn btn-primary" href="{{base_url()}}backend/page/formEvents"><i class="fas fa-plus"></i>  Tambah</a>
+            </div>
+            <div class="col-12 mt-2">
+                <div class="card">
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                                <tr>
+                                    <th style="width: 5%">No</th>
+                                    <th style="width: 8%">Gambar</th>
+                                    <th style="width: 27%">Judul</th>
+                                    <th>Deskripsi</th>
+                                    <th style="width: 10%">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+<script>
+    $(function () {
+        list();
+    });
+
+    function list() {
+        $.ajax({
+            url: "{{base_url()}}api/backend/events/list",
+            type: "GET",
+            dataType: "JSON",
+            headers: {
+                "Authorization": localStorage.getItem('key')
+            },
+            success: function(data) {
+                if ($.fn.DataTable.isDataTable('.table')) {
+                    $('.table').DataTable().destroy();
+                }
+                $('.table tbody').empty();
+                if (data.status) {
+                    $(".table").DataTable({
+                        data: data.data,
+                        aoColumns: [
+                            { mData: 'id' },
+                            { mData: 'image' },
+                            { mData: 'title' },
+                            { mData: 'description' },
+                            { mData: 'action' }
+                        ],
+                        responsive: true,
+                        lengthChange: false,
+                        autoWidth: false,
+                        info: true,
+                        ordering: false,
+                        language: {
+                            emptyTable: "Belum ada riwayat Kegiatan"
+                        }
+                    });
+                } else {
+                    $(".table").DataTable({
+                        language: {
+                            emptyTable: "Belum ada riwayat Kegiatan"
+                        }
+                    });
+                }
+            },
+            error: function(err) {
+                alert(err);
+            }
+        });
+    }
+
+    function deleteData(id) {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Apakah kamu yakin ?',
+            text: "Kamu akan menghapus data yang terpilih",
+            showCancelButton: true,
+            confirmButtonText: 'Ya',
+            cancelButtonText: 'Batal',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{base_url()}}api/backend/events/delete",
+                    type: "POST",
+                    dataType: "JSON",
+                    headers: {
+                        "Authorization": localStorage.getItem('key')
+                    },
+                    data: {
+                        id : id
+                    },
+                    success: function(data) {
+                        if (data.status) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: data.message,
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            list();
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: data.message,
+                                showConfirmButton: false,
+                            });
+                        }
+                    },
+                    error: function(err) {
+                        alert(err);
+                    }
+                });
+            }
+        })
+    }
+</script>
+{% endblock %}

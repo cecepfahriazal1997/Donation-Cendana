@@ -1,0 +1,128 @@
+{% extends "backend/skeleton.twig" %}
+{% block additional_title %}{{title}}{% endblock %}
+{% block title_menu %}{{title}}{% endblock %}
+{% block breadcrumb %}
+<ol class="breadcrumb float-sm-right">
+    <li class="breadcrumb-item"><a href="{{base_url()}}backend">Home</a></li>
+    <li class="breadcrumb-item"><a href="{{base_url()}}backend/page/events">{{title}}</a></li>
+    <li class="breadcrumb-item active">Form</li>
+</ol>
+{% endblock %}
+{% block main_content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12 text-right">
+                <a class="btn btn-default" href="{{base_url()}}backend/page/events"><i class="fas fa-reply"></i>
+                    Kembali</a>
+            </div>
+            <div class="col-md-12 mt-2 pl-0 pr-0">
+                <form id="form" method="post" enctype="multipart/form-data">
+                    <div class="col-md-12 mt-2 mb-2">
+                        <div class="d-block text-right" style="height: 500px;background: white;background-image: url({{detail.image ? detail.image : base_url() ~ 'assets/images/cover.jpg'}});background-repeat: no-repeat;background-size: cover;padding: 16px;border-radius: 10px 10px 10px 10px;">
+                            <button type="button" class="btn btn-default bg-white" onclick="$('#file').click();"><i class="fas fa-camera mr-1"></i> Change Cover</button>
+                            <input type="file" id="file" name="file" class="d-none" />
+                        </div>
+                    </div>
+                    <div class="col-md-12 mt-2">
+                        <!-- general form elements -->
+                        <div class="card card-outline">
+                            <!-- form start -->
+                            <div class="card-body">
+                                <input type="hidden" id="id" name="id" value="{{detail.id}}" />
+                                <div class="form-group">
+                                    <label for="title">Judul <span class="text-danger">*</span></label>
+                                    <input type="title" class="form-control" id="title" name="title"
+                                        placeholder="Masukan judul kegiatan" value="{{detail.title}}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="description">Deskripsi</label>
+                                    <textarea id="description" name="description">{{detail.description}}</textarea>
+                                </div>
+                            </div>
+                            <!-- /.card-body -->
+
+                            <div class="card-footer text-right">
+                                <a href="{{base_url()}}backend/page/events" class="btn btn-default mr-2"><i class="fas fa-reply"></i> Kembali</a>
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                            </div>
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block custom_js %}
+{# <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDgrDAFRkf0PTFgPOKF7-Ju8iofMhXSbRI&callback=initMap&libraries=&v=weekly"async></script> #}
+<script>
+    $(function () {
+        $('#description').summernote({
+            height: 300,
+            toolbar: [
+                // [groupName, [list of button]]
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['font', ['strikethrough', 'superscript', 'subscript']],
+                ['fontsize', ['fontsize']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['height', ['height']],
+                ['view', ['help']],
+            ],
+            placeholder: 'Isi deskripsi lengkap kegiatan',
+        });
+
+        // form submit
+        $('#form').validate({
+            submitHandler: function () {
+                var form_data = new FormData(document.getElementById('form'));
+                $.ajax({
+                    url: "{{base_url()}}api/backend/events/save",
+                    type: "POST",
+                    dataType: "JSON",
+                    headers: {
+                        "Authorization": localStorage.getItem('key')
+                    },
+                    data: form_data,
+                    processData: false,
+                    contentType: false,
+                    success: function (data) {
+                        if (data.status) {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'success',
+                                title: 'Success!',
+                                text: data.message,
+                                showConfirmButton: true,
+                                timer: 1500
+                            });
+                            location.href="{{base_url()}}backend/page/events"
+                        } else {
+                            Swal.fire({
+                                position: 'center',
+                                icon: 'error',
+                                title: 'Oops!',
+                                text: data.message,
+                                showConfirmButton: true,
+                            });
+                        }
+                    }
+                });
+            },
+            errorElement: 'span',
+            errorPlacement: function (error, element) {
+                error.addClass('invalid-feedback');
+                element.closest('.form-group').append(error);
+            },
+            highlight: function (element, errorClass, validClass) {
+                $(element).addClass('is-invalid');
+            },
+            unhighlight: function (element, errorClass, validClass) {
+                $(element).removeClass('is-invalid');
+            }
+        });
+    });
+</script>
+{% endblock %}
