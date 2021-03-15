@@ -14,7 +14,7 @@ class Page extends CI_Controller {
         $listDonation           = $this->donation->getDonationUsers();
         if (!empty($listDonation)) {
             $tmpResult              = array();
-            foreach ($listDonation as $row) {
+            foreach ($listDonation as $index => $row) {
                 $row['amount']          = number_format($row['amount'], 0, ',', '.');
                 $row['elapsed_time']    = $this->general->timeElapsedString($row['transaction_time']);
                 $tmpResult[]            = $row;
