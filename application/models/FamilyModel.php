@@ -49,6 +49,7 @@ class FamilyModel extends CI_Model {
                             marital_status.`name` as status_marital,
                             family.`family_card_id`,
                             family.birth_date,
+                            family.image,
                             family.birth_place');
         $this->db->join('family_status', 'family_status.id = family.status_family', 'inner');
         $this->db->join('marital_status', 'marital_status.id = family.status_marital', 'inner');

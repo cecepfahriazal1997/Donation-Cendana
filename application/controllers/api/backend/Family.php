@@ -193,8 +193,17 @@ class Family extends CI_Controller {
 			foreach ($list as $key => $row) {
 				$param	= array();
 				$param['id']				= $key + 1;
-				$param['code']				= $row['code'];
-				$param['name']				= $row['name'];
+				if (empty($row['image']) || !is_file(str_replace(base_url(), '', $row['image'])))
+					$row['image']			= base_url() . 'assets/images/user.png';
+				$param['name']				= '<div class="d-flex">';
+				$param['name']				.= '<a href="' . $row['image'] . '" target="_blank">';
+				$param['name']				.= '<img src="' . $row['image'] . '" class="img-size-50 img-circle border" style="height: 50px"/>';
+				$param['name']				.= '</a>';
+				$param['name']				.= '<div class="d-block ml-3">';
+				$param['name']				.= '<div>#' . $row['code'] . '</div>';
+				$param['name']				.= '<div class="font-weight-bold">' . $row['name'] . '</div>';
+				$param['name']				.= '</div>';
+				$param['name']				.= '</div>';
 				$param['gender']			= $row['gender'];
 				$param['status']			= $row['status'];
 				$param['birth_place']		= $row['birth_place'];
@@ -315,29 +324,33 @@ class Family extends CI_Controller {
             $response["status"]     = false;
             $response['message']    = $this->form_validation->error_array();
 		} else {
-			$param						= array();
-			$param['code']				= $number;
-			$param['family_card_id']	= $cardId;
-			$param['name']				= $name;
-			$param['gender']			= $gender;
-			$param['birth_place']		= $birthPlace;
-			$param['birth_date']		= $birthDate;
-			$param['religion_id']		= $religion;
-			$param['education_id']		= $education;
-			$param['profession_id']		= $profession;
-			$param['blood_type']		= $bloodType;
-			$param['status_family']		= $status;
-			$param['status_marital']	= $statusMarital;
-			$param['nationality']			= 'WNI';
-			$param['no_paspor']				= $noPaspor;
-			$param['no_kitap']				= $noKitap;
-			$param['father_id']				= $father;
-			$param['mother_id']				= $mother;
-			$param['no_certificate_birth']	= $certificateBirth;
+			$param							= array();
+			$param['code']					= $number;
+			$param['family_card_id']		= $cardId;
+			$param['name']					= $name;
+			$param['gender']				= $gender;
+			$param['birth_place']			= $birthPlace;
+			$param['birth_date']			= $birthDate;
+			$param['religion_id']			= $religion;
+			$param['education_id']			= $education;
+			$param['profession_id']			= $profession;
+			$param['blood_type']			= $bloodType;
+			$param['status_family']			= $status;
+			$param['status_marital']		= $statusMarital;
+			$param['nationality']				= 'WNI';
+			$param['no_paspor']					= $noPaspor;
+			$param['no_kitap']					= $noKitap;
+			$param['father_id']					= $father;
+			$param['mother_id']					= $mother;
+			$param['no_certificate_birth']		= $certificateBirth;
 			$param['no_certificate_marital']	= $certificateMarital;
-			$param['date_marital']			= $dateMarital;
+			$param['date_marital']				= $dateMarital;
 
+			$upload					= $this->general->uploadFile('profile', 'jpg|png');
 			$checkCode				= $this->model->checkCodeFamily($id, $number);
+			if ($upload['status']) {
+				$param['image']			= $upload['data']['file_url'];
+			}
 			if ($checkCode == 0) {
 				if (empty($id)) {
 					$proccess = $this->general->insertData('family', $param);

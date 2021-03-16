@@ -17,209 +17,214 @@
                 <a class="btn btn-default" href="{{base_url()}}backend/page/cardFamilyDetail/{{card.id}}"><i class="fas fa-reply"></i>
                     Kembali</a>
             </div>
-            <div class="col-md-2 mt-2">
-                <div class="d-block">
-                    <div class="border rounded w-100">
-                        <img src="{{detail.image ? detail.image : base_url() ~ 'assets/template/backend/dist/img/user2-160x160.jpg'}}" class="rounded" style="width: inherit" alt="Product Image">
-                    </div>
-                    <button type="button" class="btn btn-outline-primary btn-block mt-2">Browse</button>
-                </div>
-            </div>
-            <div class="col-md-10 mt-2">
-                <!-- general form elements -->
-                <div class="card card-outline card-primary">
-                    <!-- form start -->
-                    <form id="form" method="post" enctype="multipart/form-data">
-                        <div class="card-body">
-                            <input type="hidden" id="id" name="id" value="{{detail.id}}" />
-                            <input type="hidden" id="family_card_id" name="family_card_id" value="{{card.id}}" />
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="number">Kode <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="number" name="number"
-                                            placeholder="Masukan kombinasi kode unik" value="{{detail.code}}" required>
-                                    </div>
+            <div class="col-12">
+                <form id="form" method="post" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-md-2 mt-2">
+                            <div class="d-block">
+                                <div class="border rounded w-100 bg-white">
+                                    <img src="{{detail.image ? detail.image : base_url() ~ 'assets/images/user.png'}}" class="rounded" style="width: inherit" alt="Product Image">
                                 </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="name" name="name"
-                                            placeholder="Masukan nama lengkap" value="{{detail.name}}" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
-                                        <div class="d-block">
-                                            <div class="icheck-primary d-inline">
-                                                <input type="radio" id="male" name="gender" value="L" {{(detail.gender == '' or detail.gender == 'L' ? 'checked' : '')}} required>
-                                                <label for="male">
-                                                    Laki-laki
-                                                </label>
-                                            </div>
-                                            <div class="icheck-primary d-inline ml-3">
-                                                <input type="radio" id="female" name="gender" value="P" {{(detail.gender == 'P' ? 'checked' : '')}} required>
-                                                <label for="female">
-                                                    Perempuan
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="birth_place">Tempat Lahir <span class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="birth_place" name="birth_place"
-                                            placeholder="Masukan tempat lahir" value="{{detail.birth_place}}" required>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="birth_date">Tanggal Lahir <span class="text-danger">*</span></label>
-                                        <div class="input-group date" data-target-input="nearest">
-                                            <input type="text" id="birth_date" name="birth_date" value="{{detail.birth_date}}" class="form-control datetimepicker-input" placeholder="yyyy-mm-dd" data-target="#birth_date" required/>
-                                            <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="religion">Agama <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" id="religion" name="religion" style="width: 100%;" required>
-                                            <option value="">Pilih Agama</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="education">Pendidikan <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" id="education" name="education" style="width: 100%;" required>
-                                            <option value="">Pilih Pendidikan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="profession">Pekerjaan <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" id="profession" name="profession" style="width: 100%;" required>
-                                            <option value="">Pilih Pekerjaan</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="blood_type">Golongan Darah</label>
-                                        <select class="form-control select2" id="blood_type" name="blood_type" style="width: 100%;">
-                                            <option value="">Pilih Golongan Darah</option>
-                                            <option value="A">A</option>
-                                            <option value="B">B</option>
-                                            <option value="AB">AB</option>
-                                            <option value="O">O</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="status">Status Dalam Keluarga <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" id="status" name="status" style="width: 100%;" required>
-                                            <option value="">Pilih Status</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="status_marital">Status Kawin <span class="text-danger">*</span></label>
-                                        <select class="form-control select2" id="status_marital" name="status_marital" style="width: 100%;" required>
-                                            <option value="">Pilih Status Kawin</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="no_certificate_birth">No. Akta Kelahiran</label>
-                                        <input type="number" class="form-control" id="no_certificate_birth" name="no_certificate_birth"
-                                            placeholder="Masukan nomor akta kelahiran" value="{{detail.no_certificate_birth}}">
-                                    </div>
-                                </div>
-                            </div>
-                            <hr/>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="father">Nama Ayah</label>
-                                        <select class="form-control select2 parents" id="father" name="father" style="width: 100%;">
-                                            <option value="">Pilih Ayah</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="mother">Nama Ibu</label>
-                                        <select class="form-control select2 parents" id="mother" name="mother" style="width: 100%;">
-                                            <option value="">Pilih Ibu</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="no_certificate_marital">No. Akta Kawin</label>
-                                        <input type="text" class="form-control" id="no_certificate_marital" name="no_certificate_marital"
-                                            placeholder="Masukan nomor akta kawin" value="{{detail.no_certificate_marital}}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="date_marital">Tanggal Kawin</label>
-                                        <div class="input-group date" data-target-input="nearest">
-                                            <input type="text" id="date_marital" name="date_marital" value="{{detail.date_marital}}" class="form-control datetimepicker-input" placeholder="yyyy-mm-dd" data-target="#date_marital" />
-                                            <div class="input-group-append" data-target="#date_marital" data-toggle="datetimepicker">
-                                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="no_paspor">No. Paspor</label>
-                                        <input type="text" class="form-control" id="no_paspor" name="no_paspor"
-                                            placeholder="Masukan nomor paspor" value="{{detail.no_paspor}}">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="no_kitap">No. Kitap</label>
-                                        <input type="text" class="form-control" id="no_kitap" name="no_kitap"
-                                            placeholder="Masukan nomor kitap" value="{{detail.no_kitap}}">
-                                    </div>
-                                </div>
+                                <input type="file" class="col-md-1 d-none" id="file" name="file" />
+                                <button type="button" class="btn btn-outline-primary btn-block mt-2" onclick="$('#file').click()">Browse</button>
                             </div>
                         </div>
-                        <!-- /.card-body -->
+                        <div class="col-md-10 mt-2">
+                            <!-- general form elements -->
+                            <div class="card card-outline card-primary">
+                                <!-- form start -->
+                                <div class="card-body">
+                                    <input type="hidden" id="id" name="id" value="{{detail.id}}" />
+                                    <input type="hidden" id="family_card_id" name="family_card_id" value="{{card.id}}" />
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="number">Kode <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="number" name="number"
+                                                    placeholder="Masukan kombinasi kode unik" value="{{detail.code}}" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="name">Nama Lengkap <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="name" name="name"
+                                                    placeholder="Masukan nama lengkap" value="{{detail.name}}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="gender">Jenis Kelamin <span class="text-danger">*</span></label>
+                                                <div class="d-block">
+                                                    <div class="icheck-primary d-inline">
+                                                        <input type="radio" id="male" name="gender" value="L" {{(detail.gender == '' or detail.gender == 'L' ? 'checked' : '')}} required>
+                                                        <label for="male">
+                                                            Laki-laki
+                                                        </label>
+                                                    </div>
+                                                    <div class="icheck-primary d-inline ml-3">
+                                                        <input type="radio" id="female" name="gender" value="P" {{(detail.gender == 'P' ? 'checked' : '')}} required>
+                                                        <label for="female">
+                                                            Perempuan
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="birth_place">Tempat Lahir <span class="text-danger">*</span></label>
+                                                <input type="text" class="form-control" id="birth_place" name="birth_place"
+                                                    placeholder="Masukan tempat lahir" value="{{detail.birth_place}}" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="birth_date">Tanggal Lahir <span class="text-danger">*</span></label>
+                                                <div class="input-group date" data-target-input="nearest">
+                                                    <input type="text" id="birth_date" name="birth_date" value="{{detail.birth_date}}" class="form-control datetimepicker-input" placeholder="yyyy-mm-dd" data-target="#birth_date" required/>
+                                                    <div class="input-group-append" data-target="#birth_date" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="religion">Agama <span class="text-danger">*</span></label>
+                                                <select class="form-control select2" id="religion" name="religion" style="width: 100%;" required>
+                                                    <option value="">Pilih Agama</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="education">Pendidikan <span class="text-danger">*</span></label>
+                                                <select class="form-control select2" id="education" name="education" style="width: 100%;" required>
+                                                    <option value="">Pilih Pendidikan</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="profession">Pekerjaan <span class="text-danger">*</span></label>
+                                                <select class="form-control select2" id="profession" name="profession" style="width: 100%;" required>
+                                                    <option value="">Pilih Pekerjaan</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="blood_type">Golongan Darah</label>
+                                                <select class="form-control select2" id="blood_type" name="blood_type" style="width: 100%;">
+                                                    <option value="">Pilih Golongan Darah</option>
+                                                    <option value="A">A</option>
+                                                    <option value="B">B</option>
+                                                    <option value="AB">AB</option>
+                                                    <option value="O">O</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="status">Status Dalam Keluarga <span class="text-danger">*</span></label>
+                                                <select class="form-control select2" id="status" name="status" style="width: 100%;" required>
+                                                    <option value="">Pilih Status</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="status_marital">Status Kawin <span class="text-danger">*</span></label>
+                                                <select class="form-control select2" id="status_marital" name="status_marital" style="width: 100%;" required>
+                                                    <option value="">Pilih Status Kawin</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="no_certificate_birth">No. Akta Kelahiran</label>
+                                                <input type="number" class="form-control" id="no_certificate_birth" name="no_certificate_birth"
+                                                    placeholder="Masukan nomor akta kelahiran" value="{{detail.no_certificate_birth}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="father">Nama Ayah</label>
+                                                <select class="form-control select2 parents" id="father" name="father" style="width: 100%;">
+                                                    <option value="">Pilih Ayah</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="mother">Nama Ibu</label>
+                                                <select class="form-control select2 parents" id="mother" name="mother" style="width: 100%;">
+                                                    <option value="">Pilih Ibu</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="no_certificate_marital">No. Akta Kawin</label>
+                                                <input type="text" class="form-control" id="no_certificate_marital" name="no_certificate_marital"
+                                                    placeholder="Masukan nomor akta kawin" value="{{detail.no_certificate_marital}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="date_marital">Tanggal Kawin</label>
+                                                <div class="input-group date" data-target-input="nearest">
+                                                    <input type="text" id="date_marital" name="date_marital" value="{{detail.date_marital}}" class="form-control datetimepicker-input" placeholder="yyyy-mm-dd" data-target="#date_marital" />
+                                                    <div class="input-group-append" data-target="#date_marital" data-toggle="datetimepicker">
+                                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="no_paspor">No. Paspor</label>
+                                                <input type="text" class="form-control" id="no_paspor" name="no_paspor"
+                                                    placeholder="Masukan nomor paspor" value="{{detail.no_paspor}}">
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label for="no_kitap">No. Kitap</label>
+                                                <input type="text" class="form-control" id="no_kitap" name="no_kitap"
+                                                    placeholder="Masukan nomor kitap" value="{{detail.no_kitap}}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- /.card-body -->
 
-                        <div class="card-footer text-right">
-                            <a href="{{base_url()}}backend/page/cardFamilyDetail/{{card.id}}" class="btn btn-default mr-2"><i class="fas fa-reply"></i> Kembali</a>
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                                <div class="card-footer text-right">
+                                    <a href="{{base_url()}}backend/page/cardFamilyDetail/{{card.id}}" class="btn btn-default mr-2"><i class="fas fa-reply"></i> Kembali</a>
+                                    <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Simpan</button>
+                                </div>
+                            </div>
+                            <!-- /.card -->
                         </div>
-                    </form>
-                </div>
-                <!-- /.card -->
+                    </div>
+                </form>
             </div>
         </div>
     </div>
