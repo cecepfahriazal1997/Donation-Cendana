@@ -324,19 +324,19 @@ class Family extends CI_Controller {
             $response["status"]     = false;
             $response['message']    = $this->form_validation->error_array();
 		} else {
-			$param							= array();
-			$param['code']					= $number;
-			$param['family_card_id']		= $cardId;
-			$param['name']					= $name;
-			$param['gender']				= $gender;
-			$param['birth_place']			= $birthPlace;
-			$param['birth_date']			= $birthDate;
-			$param['religion_id']			= $religion;
-			$param['education_id']			= $education;
-			$param['profession_id']			= $profession;
-			$param['blood_type']			= $bloodType;
-			$param['status_family']			= $status;
-			$param['status_marital']		= $statusMarital;
+			$param								= array();
+			$param['code']						= $number;
+			$param['family_card_id']			= $cardId;
+			$param['name']						= $name;
+			$param['gender']					= $gender;
+			$param['birth_place']				= $birthPlace;
+			$param['birth_date']				= $birthDate;
+			$param['religion_id']				= $religion;
+			$param['education_id']				= $education;
+			$param['profession_id']				= $profession;
+			$param['blood_type']				= $bloodType;
+			$param['status_family']				= $status;
+			$param['status_marital']			= $statusMarital;
 			$param['nationality']				= 'WNI';
 			$param['no_paspor']					= $noPaspor;
 			$param['no_kitap']					= $noKitap;
@@ -348,21 +348,28 @@ class Family extends CI_Controller {
 
 			$upload					= $this->general->uploadFile('profile', 'jpg|png');
 			$checkCode				= $this->model->checkCodeFamily($id, $number);
-			if ($upload['status']) {
+			if (!empty($upload['status'])) {
 				$param['image']			= $upload['data']['file_url'];
 			}
 			if ($checkCode == 0) {
-				if (empty($id)) {
-					$proccess = $this->general->insertData('family', $param);
-				} else {
-					$proccess = $this->general->updateData($id, 'family', $param);
-				}
-				if ($proccess) {
-					$response['status']		= true;
-					$response['message']	= 'Data berhasil disimpan';
+				$checkHeadmaster		= $this->model->checkHeadmasterFamily($id);
+				$cardFamily				= $this->general->fetchSingleData(array('id', $cardId), 'family_card');
+				if ($checkHeadmaster == 0) {
+					if (empty($id)) {
+						$proccess = $this->general->insertData('family', $param);
+					} else {
+						$proccess = $this->general->updateData($id, 'family', $param);
+					}
+					if ($proccess) {
+						$response['status']		= true;
+						$response['message']	= 'Data berhasil disimpan';
+					} else {
+						$response['status']		= false;
+						$response['message']	= 'Data gagal disimpan';
+					}
 				} else {
 					$response['status']		= false;
-					$response['message']	= 'Data gagal disimpan';
+					$response['message']	= 'Sudah ada yang menjadi Kepala Keluarga pada kartu keluarga #' . $cardFamily['number'];
 				}
 			} else {
 				$response['status']		= false;

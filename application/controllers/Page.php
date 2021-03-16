@@ -8,9 +8,11 @@ class Page extends CI_Controller {
         $this->load->model('GalleryModel', 'gallery');
         $this->load->model('DonationModel', 'donation');
         $this->load->model('EventsModel', 'events');
+        $this->load->model('FamilyModel', 'family');
 	}
 	
 	public function index() {
+        // list of donation
         $listDonation           = $this->donation->getDonationUsers();
         if (!empty($listDonation)) {
             $tmpResult              = array();
@@ -23,6 +25,7 @@ class Page extends CI_Controller {
             $data['donation']['total']      = number_format(array_sum(array_column($listDonation, 'amount')), 0, ',', '.');
         }
 
+        // list of events
         $listEvents = $this->events->list();
         if (!empty($listEvents)) {
             $tmpEvents = array();
@@ -47,6 +50,32 @@ class Page extends CI_Controller {
             $data['events']		    = $tmpEvents;
         }
 
+        //list of tree family
+        $listFamily     = $this->family->fetchAllFamily();
+        $tmpFamily      = array();
+        if (!empty($listFamily)) {
+            foreach ($listFamily as $key => $row) {
+                $param          = array();
+                $pid            = $row['father_id'];
+                if (empty($row['father_id']))
+                    $pid        = $row['mother_id'];
+                $status         = $row['status_family'];
+                if ($key > 0) {
+                    $status     = 'Anak (' . $row['status_family'] . ')';
+                }
+                $param['id']    = $row['id'];
+                $param['pid']   = $pid;
+                $param['tags']  = array($status);
+                $param['title'] = $status;
+                $param['name']  = $row['name'];
+				if (empty($row['image']) || !is_file(str_replace(base_url(), '', $row['image'])))
+					$row['image']			= base_url() . 'assets/images/user.png';
+                $param['img']   = $row['image'];
+                $tmpFamily[]    = $param;
+            }
+        }
+
+        $data['family']         = json_encode($tmpFamily);
 		$data['gallery']		= $this->gallery->list();
 		$data['midtrans_key']	= $this->midtrans->clientKey;
 		$this->twig->display('frontend/index', $data);

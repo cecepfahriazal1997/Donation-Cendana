@@ -40,6 +40,10 @@ class FamilyModel extends CI_Model {
         return $this->db->where('id !=', $id)->where('code', $code)->count_all_results('family');
     }
 
+    public function checkHeadmasterFamily($id) {
+        return $this->db->where('id !=', $id)->where('status_family', '1')->count_all_results('family');
+    }
+
     public function listFamily($parentId) {
         $this->db->select(' family.id,
                             family.`code`,
@@ -92,6 +96,22 @@ class FamilyModel extends CI_Model {
         } else {
             return $this->db->where('id', $check->id)->update('users'); 
         }
+    }
+
+    public function fetchAllFamily() {
+        $this->db->select(' family.id,
+                            family.family_card_id,
+                            family.`code`,
+                            family.`name`,
+                            family.image,
+                            family.father_id,
+                            family.mother_id,
+                            family_status.`name` AS status_family');
+        $this->db->join('family_status', 'family_status.id = family.status_family', 'inner');
+        $this->db->order_by('family.father_id', 'ASC');
+        $this->db->order_by('family.mother_id', 'ASC');
+        $this->db->order_by('family.`name`', 'ASC');
+        return $this->db->get('family')->result_array();
     }
 }
 ?>

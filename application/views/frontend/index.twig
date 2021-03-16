@@ -289,6 +289,7 @@
         </div>
       </div>
     </section><!-- End Recent Events Posts Section -->
+    <input type="text" id="family" value="{{family}}" />
   </main><!-- End #main -->
 
   <!-- ======= Footer ======= -->
@@ -416,18 +417,7 @@
               field_1: "title",
               img_0: "img"
           },
-          nodes: [
-              { id: 1, tags: ["Kakek"], name: "Denny Curtis", title: "Kakek", img: "https://cdn.balkan.app/shared/2.jpg" },
-              { id: 2, pid: 1, name: "Ashley Barnett", title: "Anak 1", img: "https://cdn.balkan.app/shared/3.jpg" },
-              { id: 3, pid: 1, tags: "RR", name: "Caden Ellison", title: "Anak 2", img: "https://cdn.balkan.app/shared/4.jpg" },
-              { id: 4, pid: 2, name: "Elliot Patel", title: "Anak", img: "https://cdn.balkan.app/shared/5.jpg" },
-              { id: 5, pid: 2, name: "Lynn Hussain", title: "Anak", img: "https://cdn.balkan.app/shared/6.jpg" },
-              { id: 6, pid: 3, name: "Tanner May", title: "Anak", img: "https://cdn.balkan.app/shared/7.jpg" },
-              { id: 7, pid: 3, name: "Fran Parsons", title: "Anak", img: "https://cdn.balkan.app/shared/8.jpg" },
-              { id: 8, pid: 2, tags: ["Anak"], name: "Rudy Griffiths", title: "Anak", img: "https://cdn.balkan.app/shared/9.jpg" },
-              { id: 9, pid: 2, tags: ["Anak"], name: "Eli Palmer", title: "Anak", img: "https://cdn.balkan.app/shared/10.jpg" },
-              { id: 10, pid: 7, tags: ["Anak"], name: "Eli Palmer", title: "Anak", img: "https://cdn.balkan.app/shared/10.jpg" }
-          ]
+          nodes: JSON.parse($('#family').val())
       });
 
       function payment() {
