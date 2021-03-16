@@ -25,6 +25,13 @@ class FamilyModel extends CI_Model {
         return $this->db->get('family_card')->result_array();
     }
 
+    public function countMemberFamilyByNumber($listId) {
+        $this->db->select('family_card_id, count(id) as total');
+        $this->db->where_in('family_card_id', $listId);
+        $this->db->group_by('family_card_id');
+        return $this->db->get('family')->result_array();
+    }
+
     public function checkCodeCardFamily($id, $code) {
         return $this->db->where('id !=', $id)->where('number', $code)->count_all_results('family_card');
     }

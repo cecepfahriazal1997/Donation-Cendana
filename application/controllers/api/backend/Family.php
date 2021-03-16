@@ -12,13 +12,18 @@ class Family extends CI_Controller {
 		$response		= array();
 		$list			= $this->model->listCardFamily();
 		if (!empty($list)) {
+			$listId		= array_column($list, 'id');
+			$listMember	= $this->model->countMemberFamilyByNumber($listId);
 			$result		= array();
 			foreach ($list as $key => $row) {
-				$param	= array();
+				$searchKey			= array_search($row['id'], array_column($listMember, 'family_card_id'));
+				$totalMember		= ($listMember[$searchKey]['family_card_id'] == $row['id']) ? $listMember[$searchKey]['total'] : 0;
+				$param				= array();
 				$param['id']		= $key + 1;
 				$param['number']	= $row['number'];
 				$param['name']		= $row['head_family'];
 				$param['address']	= $row['address'];
+				$param['total']		= $totalMember . ' Orang';
 				$param['action']	= '<div class="btn-group">
 											<button type="button" class="btn btn-primary">Aksi</button>
 											<button type="button" class="btn btn-primary dropdown-toggle dropdown-icon"
