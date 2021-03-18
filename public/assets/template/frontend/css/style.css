@@ -195,6 +195,28 @@ section {
   margin-top: 3px;
 }
 
+
+@media screen and (max-width: 328px) {
+  .header .logo span {
+    font-size: 22px;
+  }
+}
+
+@media screen and (max-width: 328px) {
+  .img-mobile {
+    display: none;
+  }
+  .contact .info-box {
+    padding: 0px !important;
+  }
+  .time-mobile {
+    max-width: 50px;
+    text-overflow: ellipsis !important;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
 /*--------------------------------------------------------------
 # Navigation Menu
 --------------------------------------------------------------*/
