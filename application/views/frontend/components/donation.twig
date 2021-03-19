@@ -1,0 +1,175 @@
+{% extends "frontend/skeleton.twig" %}
+{% block additional_title %}Donasi{% endblock %}
+{% block additional_css %}
+<link href="{{base_url()}}assets/template/frontend/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="d-block">
+  <main id="main">
+    <!-- ======= Breadcrumbs ======= -->
+    <section class="breadcrumbs mt-0">
+      <div class="container">
+        <ol>
+          <li><a href="{{base_url()}}">Dashboard</a></li>
+          <li>Donasi</li>
+        </ol>
+        <h2>Berikan Donasi Sekarang</h2>
+      </div>
+    </section><!-- End Breadcrumbs -->
+    <!-- ======= Donation Section ======= -->
+    <section id="donation" class="contact pt-3 mb-3">
+      <div class="container">
+        <div class="row gy-4">
+          <!-- LIST OF DONATUR -->
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-12 col-md-12">
+                <h4>Daftar yang telah berdonasi</h4>
+              </div>
+              <div class="col-12 col-md-12 mb-3">
+                <h4><span style="font-weight: bold; color: #4154f1" id="total-donation">{{donation.data | length}} Orang</span></h4>
+              </div>
+            </div>
+            <div id="list-donation">
+            {% if donation.data | length > 0 %}
+            {% for item in donation.data %}
+              <div class="row gy-4">
+                <div class="col-md-12">
+                  <div class="info-box border-bottom-gray">
+                    <div class="d-flex">
+                      <img src="{{base_url()}}assets/template/frontend/img/blog/comments-2.jpg"
+                        class="rounded-img img-mobile" alt="">
+                      <div class="d-block w-100" style="margin: 0px 16px !important">
+                        <div class="d-flex justify-content-between">
+                          <h4 class="mb-0 mt-3">{{item.name}}</h4>
+                          <span class="text-muted mt-3 small time-mobile" style="text-align: right !important;">{{item.elapsed_time}}</span>
+                        </div>
+                        <span class="text-muted">Berdonasi sebesar <h3 class="ml-3 mt-0">Rp. {{item.amount}}</h3></span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+            {% else %}
+            <div class="row gy-4 mt-2">
+              <div class="col-md-8">
+                <img src="{{base_url()}}assets/template/frontend/img/values.png" class="img-fluid" alt="">
+                <div class="d-block mt-4 text-center">
+                  <span class="text-muted small">Belum ada yang memberikan donasi saat ini.</span>
+                </div>
+              </div>
+            </div>
+            {% endif %}
+            </div>
+            <div class="d-flex mt-2 justify-content-between">
+              <div></div>
+              <ul class="pagination pagination-sm d-none">
+                <li class="page-item"><a href="#" class="page-link">Prev</a></li>
+                <li class="page-item"><a href="#" class="page-link">Next</a></li>
+              </ul>
+            </div>
+          </div>
+          <!-- END LIST OF DONATUR -->
+          <!-- FORM DONATION -->
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-12 col-md-12">
+                <h4>Donasi yang telah terkumpul</h4>
+              </div>
+              <div class="col-12 col-md-12 mb-3">
+                <h4><span style="font-weight: bold; color: #4154f1" id="current-donation">Rp. {{donation.total}}</span></h4>
+              </div>
+            </div>
+            <form id="form" method="post" class="php-email-form pb-0" onsubmit="payment(); return false;">
+              <div class="row gy-4">
+                <div class="col-md-6">
+                  <input type="text" name="name" class="form-control" placeholder="Masukan nama lengkap ..." required>
+                </div>
+                <div class="col-md-6 ">
+                  <input type="email" class="form-control" id="email" name="email" placeholder="Masukan email ..." required>
+                </div>
+                <div class="col-md-12 ">
+                  <input type="text" class="form-control" id="phone" name="phone" placeholder="Masukan no. telepon ..." required>
+                </div>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text">Rp.</span>
+                  </div>
+                  <input type="text" class="form-control form-prepend" id="amount" name="amount" placeholder="Masukan nominal ..." required>
+                </div>
+                <div class="col-md-12">
+                  <textarea class="form-control" name="message" rows="6" placeholder="Masukan pesan ..."
+                    required></textarea>
+                </div>
+                <div class="col-md-12 text-center">
+                  <div class="services mb-3" id="content-message">
+                    <div class="d-none service-box btn-danger p-3" id="error-message">
+                    </div>
+                  </div>
+                  <button type="submit" id="submit" class="w-100">Lanjutkan Pembayaran</button>
+                </div>
+              </div>
+            </form>
+          </div>
+          <!-- END FORM DONATION -->
+        </div>
+      </div>
+    </section><!-- End Contact Section -->
+  </main><!-- End #main -->
+</div>
+{% endblock %}
+{% block custom_js %}
+<!-- Input Mask -->
+<script src="{{base_url()}}assets/template/frontend/js/jquery.mask.js"></script>
+<script src="{{base_url()}}assets/template/frontend/js/jquery.mask.min.js"></script>
+<script>
+    $(document).ready(function(){
+      $('#phone').mask("999-9999-9999");
+      $('#amount').mask("#.##0", {reverse: true});
+    });
+
+    function payment() {
+        $('#amount').unmask();
+        $('#phone').unmask();
+        var form_data = new FormData(document.getElementById('form'));
+        $.ajax({
+            url: "{{base_url()}}api/frontend/midtrans/generateToken",
+            type: "POST",
+            dataType: "JSON",
+            data: form_data,
+            processData: false,
+            contentType: false,
+            beforeSend: function() {
+            $('#submit').html('Sedang Memproses ...');
+            $('#submit').prop('disabled', true);
+            $('#submit').attr('disabled', true);
+            },
+            success: function (data) {
+            $('#phone').mask("999-9999-9999");
+            $('#amount').mask("#.##0", {reverse: true});
+            $('#submit').html('Lanjutkan Pembayaran');
+            $('#submit').removeProp('disabled');
+            $('#submit').removeAttr('disabled');
+                if (data.status) {
+                snap.pay(data.token);
+                } else {
+                $('#error-message').removeClass('d-none');
+                $('#error-message').html('<p>' + data.message + '</p>');
+                setTimeout(() => {
+                    $('#error-message').addClass('d-none');
+                    $('#error-message').html('');
+                }, 5000);
+                }
+            },
+            error: function() {
+            $('#phone').mask("999-9999-9999");
+            $('#amount').mask("#.##0", {reverse: true});
+            $('#submit').html('Lanjutkan Pembayaran');
+            $('#submit').removeProp('disabled');
+            $('#submit').removeAttr('disabled');
+            }
+        });
+    }
+</script>
+{% endblock %}

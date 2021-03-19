@@ -1,0 +1,43 @@
+{% extends "frontend/skeleton.twig" %}
+{% block additional_title %}Pohon Keluarga{% endblock %}
+{% block content %}
+<main id="main">
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs mt-0">
+    <div class="container">
+      <ol>
+        <li><a href="{{base_url()}}">Dashboard</a></li>
+        <li>Pohon Keluarga</li>
+      </ol>
+      <h2>Seluruh Anggota Keluarga Besar</h2>
+    </div>
+  </section><!-- End Breadcrumbs -->
+  <!-- ======= Tree Family Section ======= -->
+  <section id="tree-family" class="d-block">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div style="width:100%; height:700px;" id="orgchart"/>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Tree Family Section -->
+  <input type="hidden" id="family" value="{{family}}" />
+</main><!-- End #main -->
+{% endblock %}
+{% block custom_js %}
+  <!-- Tree Family JS File -->
+<script src="{{base_url()}}assets/template/frontend/js/orgchart.js"></script>
+<script>
+    var chart = new OrgChart(document.getElementById("orgchart"), {
+        mouseScrool: OrgChart.action.none,
+        enableDragDrop : false,
+        nodeBinding: {
+            field_0: "name",
+            field_1: "title",
+            img_0: "img"
+        },
+        nodes: JSON.parse($('#family').val())
+    });
+</script>
+{% endblock %}

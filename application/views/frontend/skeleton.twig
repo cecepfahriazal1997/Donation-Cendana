@@ -2,113 +2,53 @@
 <html lang="en">
 
 <head>
+  {% block meta_head %}
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-
-  <title>Detail Kegiatan - Donasi Cendana</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-  
+  {% endblock %}
+  <title>{% block additional_title %}{% endblock %} - Donasi Keluarga</title>
+  {% block css %}
   <!-- Favicons -->
   <link href="{{base_url()}}assets/template/frontend/img/favicon.png" rel="icon">
   <link href="{{base_url()}}assets/template/frontend/img/apple-touch-icon.png" rel="apple-touch-icon">
-
   <!-- Google Fonts -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
-
   <!-- Vendor CSS Files -->
   <link href="{{base_url()}}assets/template/frontend/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="{{base_url()}}assets/template/frontend/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
   <link href="{{base_url()}}assets/template/frontend/vendor/aos/aos.css" rel="stylesheet">
   <link href="{{base_url()}}assets/template/frontend/vendor/remixicon/remixicon.css" rel="stylesheet">
-  <link href="{{base_url()}}assets/template/frontend/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
-  <link href="{{base_url()}}assets/template/frontend/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
-
   <!-- Template Main CSS File -->
   <link href="{{base_url()}}assets/template/frontend/css/style.css" rel="stylesheet">
 
+  <!-- Sandbox plugins -->
+  <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{midtrans_key}}"></script>
+  {% endblock %}
+  {% block additional_css %}
+  {% endblock %}
+
   <!-- =======================================================
-  * Template Name: Donation Cendana - v1.1.1
-  * Template URL: https://bootstrapmade.com/Donation Cendana-bootstrap-startup-template/
+  * Template Name: FlexStart - v1.1.0
+  * Template URL: https://bootstrapmade.com/flexstart-bootstrap-startup-template/
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
 </head>
 
 <body>
-
   <!-- ======= Header ======= -->
-  <header id="header" class="header fixed-top">
-    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
-
-      <a href="{{base_url()}}" class="logo d-flex align-items-center">
-        <img src="{{base_url()}}assets/template/frontend/img/logo.png" alt="">
-        <span class="ml-2">DonasiKeluarga</span>
-      </a>
-
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto" href="{{base_url()}}#hero">Home</a></li>
-          <li><a class="nav-link scrollto" href="{{base_url()}}#tree-family">Pohon Keluarga</a></li>
-          <li><a class="nav-link scrollto" href="{{base_url()}}#gallery">Galeri</a></li>
-          <li><a class="nav-link scrollto active" href="{{base_url()}}#events">Kegiatan</a></li>
-          <li><a class="getstarted scrollto" href="{{base_url()}}#donation">Donasi Sekarang</a></li>
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav>
-      <!-- .navbar -->
-
-    </div>
-  </header><!-- End Header -->
-
-  <main id="main">
-
-    <!-- ======= Breadcrumbs ======= -->
-    <section class="breadcrumbs">
-      <div class="container">
-
-        <ol>
-          <li><a href="{{base_url()}}">Home</a></li>
-          <li><a href="{{base_url()}}#events">Kegiatan</a></li>
-          <li>Detail Kegiatan</li>
-        </ol>
-        <h2>Detail Kegiatan</h2>
-
-      </div>
-    </section><!-- End Breadcrumbs -->
-
-    <!-- ======= Blog Single Section ======= -->
-    <section id="blog" class="blog">
-      <div class="container" data-aos="fade-up">
-        <div class="row">
-          <div class="col-lg-12 entries">
-
-            <article class="entry entry-single">
-              <div class="entry-img">
-                <img src="{{data.image}}" alt="" class="img-fluid" style="width: 100%">
-              </div>
-              <h2 class="entry-title">
-                {{data.title}}
-              </h2>
-              <div class="entry-meta">
-                <ul>
-                  <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <span class="text-muted">{{data.upload}}</span></li>
-                </ul>
-              </div>
-              <div class="entry-content">
-                {{data.description | raw}}
-              </div>
-            </article><!-- End blog entry -->
-          </div><!-- End blog entries list -->
-        </div>
-      </div>
-    </section><!-- End Blog Single Section -->
-
-  </main><!-- End #main -->
-
+  {% block header %}{% endblock %}
+  <!-- End Header -->
+  <!-- Start Main Content -->
+  <div id="content">
+  {% block content %}
+  {% endblock %}
+  <!-- End Main Content -->
+  </div>
   <!-- ======= Footer ======= -->
   <footer id="footer" class="footer">
-
     <div class="footer-newsletter d-none">
       <div class="container">
         <div class="row justify-content-center">
@@ -129,17 +69,15 @@
       <div class="container">
         <div class="row gy-4">
           <div class="col-lg-5 col-md-12 footer-info">
-            <a href="index.html" class="logo d-flex align-items-center">
+            <a href="{{base_url()}}" class="logo d-flex align-items-center">
               <img src="{{base_url()}}assets/template/frontend/img/logo.png" alt="">
-              <span>Donation</span>
+              <span>DonasiKeluarga</span>
             </a>
             <p>Cras fermentum odio eu feugiat lide par naso tierra. Justo eget nada terra videa magna derita valies
               darta donna mare fermentum iaculis eu non diam phasellus.</p>
             <div class="social-links mt-3">
-              <a href="#" class="twitter"><i class="bi bi-twitter"></i></a>
-              <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-              <a href="#" class="instagram"><i class="bi bi-instagram bx bxl-instagram"></i></a>
-              <a href="#" class="linkedin"><i class="bi bi-linkedin bx bxl-linkedin"></i></a>
+              <a href="https://www.youtube.com/channel/UCwbLYwosbBJBRSvV8YfSItw" class="facebook"><i class="bi bi-youtube"></i></a>
+              <a href="https://www.instagram.com/donasikeluarga/" class="instagram"><i class="bi bi-instagram bx bxl-instagram"></i></a>
             </div>
           </div>
 
@@ -199,14 +137,11 @@
   <!-- Vendor JS Files -->
   <script src="{{base_url()}}assets/template/frontend/vendor/bootstrap/js/bootstrap.bundle.js"></script>
   <script src="{{base_url()}}assets/template/frontend/vendor/aos/aos.js"></script>
-  <script src="{{base_url()}}assets/template/frontend/vendor/swiper/swiper-bundle.min.js"></script>
   <script src="{{base_url()}}assets/template/frontend/vendor/purecounter/purecounter.js"></script>
   <script src="{{base_url()}}assets/template/frontend/vendor/isotope-layout/isotope.pkgd.min.js"></script>
-  <script src="{{base_url()}}assets/template/frontend/vendor/glightbox/js/glightbox.min.js"></script>
-
-  <!-- Template Main JS File -->
-  <script src="{{base_url()}}assets/template/frontend/js/main.js"></script>
-
+  
+  <!-- jQuery -->
+  <script src="{{base_url()}}assets/template/frontend/js/jquery.min.js"></script>
+  {% block custom_js %}{% endblock %}
 </body>
-
 </html>

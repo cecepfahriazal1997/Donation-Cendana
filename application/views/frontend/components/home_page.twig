@@ -1,0 +1,121 @@
+{% extends "frontend/skeleton.twig" %}
+{% block additional_title %}Dashboard{% endblock %}
+{% block additional_css %}
+<link href="{{base_url()}}assets/template/frontend/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+<link href="{{base_url()}}assets/template/frontend/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+{% endblock %}
+{% block header %}
+  <header id="header" class="header fixed-top">
+    <div class="container-fluid container-xl d-flex align-items-center justify-content-between">
+      <a href="{{base_url()}}" class="logo d-flex align-items-center">
+        <img src="{{base_url()}}assets/template/frontend/img/logo.png" alt="">
+        <span class="ml-2">DonasiKeluarga</span>
+      </a>
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <li><a class="nav-link scrollto" href="#gallery">Galeri</a></li>
+          <li><a class="nav-link scrollto" href="#events">Kegiatan</a></li>
+          <li><a class="nav-link scrollto" href="{{base_url()}}page/treeFamily">Pohon Keluarga</a></li>
+          <li><a class="getstarted scrollto" href="{{base_url()}}page/donation">Donasi Sekarang</a></li>
+        </ul>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav>
+      <!-- .navbar -->
+    </div>
+  </header>
+{% endblock %}
+{% block content %}
+<div class="d-block">
+  <!-- ======= Home Section ======= -->
+  <section id="hero" class="hero d-flex align-items-center">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6" data-aos="zoom-out" data-aos-delay="200">
+          <img src="{{base_url()}}assets/template/frontend/img/hero-img.png" class="img-fluid" alt="">
+        </div>
+        <div class="col-lg-6 d-flex flex-column justify-content-center">
+          <h1 data-aos="fade-up">Donasi Keluarga</h1>
+          <h2 data-aos="fade-up" data-aos-delay="400">Ketika kamu bersedekah, kamu bukan sedang menghabiskan uangmu.
+            Tapi kamu sedang mentransfernya untuk dirimu sendiri di waktu yang akan datang.</h2>
+          <div data-aos="fade-up" data-aos-delay="600">
+            <div class="text-center text-lg-start">
+              <a href="{{base_url()}}page/donation"
+                class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                <span>Donasi Sekarang</span>
+                <i class="bi bi-arrow-right"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section><!-- End Home -->
+  <main id="main">
+    <!-- ======= Gallery Section ======= -->
+    <section id="gallery" class="portfolio">
+      <div class="container" data-aos="fade-up">
+        <header class="section-header">
+          <h2>Galeri</h2>
+          <p>Cek galeri kita</p>
+        </header>
+        <div class="row d-none" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="portfolio-flters">
+              <li data-filter="*" class="filter-active">All</li>
+              <li data-filter=".filter-app">App</li>
+              <li data-filter=".filter-card">Card</li>
+              <li data-filter=".filter-web">Web</li>
+            </ul>
+          </div>
+        </div>
+        <div id="list-gallery" class="row gy-4 portfolio-container" data-aos="fade-up">
+          {% for key, row in gallery %}
+          <div class="col-lg-4 col-md-6 portfolio-item">
+            <div class="portfolio-wrap" style="max-height: 400px">
+              <img src="{{row.file}}" class="img-fluid" alt="">
+              <div class="portfolio-info">
+                <h4>Gallery {{(key + 1)}}</h4>
+                <div class="portfolio-links">
+                  <a href="{{row.file}}"
+                    data-gallery="portfolioGallery" class="portfokio-lightbox" title="Gallery {{(key + 1)}}"><i
+                      class="bi bi-search"></i></a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section><!-- End Portfolio Section -->
+    <!-- ======= Recent Events Posts Section ======= -->
+    <section id="events" class="recent-blog-posts">
+      <div class="container" data-aos="fade-up">
+        <header class="section-header">
+          <h2>Kegiatan</h2>
+          <p>Seluruh kegiatan</p>
+        </header>
+        <div class="row">
+        {% for item in events %}
+          <div class="col-lg-4">
+            <div class="post-box">
+              <div class="post-img"><img src="{{item.image}}" class="img-fluid" alt=""></div>
+              <span class="post-date">{{item.date}}</span>
+              <h3 class="post-title">{{item.description}}</h3>
+              <a href="{{base_url()}}page/events/{{item.id}}" class="readmore stretched-link mt-auto"><span>Read More</span><i
+                  class="bi bi-arrow-right"></i></a>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      </div>
+    </section><!-- End Recent Events Posts Section -->
+  </main><!-- End #main -->
+</div>
+{% endblock %}
+{% block custom_js %}
+<!-- Template Main JS File -->
+<script src="{{base_url()}}assets/template/frontend/vendor/swiper/swiper-bundle.min.js"></script>
+<script src="{{base_url()}}assets/template/frontend/vendor/glightbox/js/glightbox.min.js"></script>
+<script src="{{base_url()}}assets/template/frontend/js/main.js"></script>
+{% endblock %}

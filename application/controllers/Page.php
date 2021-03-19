@@ -12,19 +12,6 @@ class Page extends CI_Controller {
 	}
 	
 	public function index() {
-        // list of donation
-        $listDonation           = $this->donation->getDonationUsers();
-        if (!empty($listDonation)) {
-            $tmpResult              = array();
-            foreach ($listDonation as $index => $row) {
-                $row['amount']          = number_format($row['amount'], 0, ',', '.');
-                $row['elapsed_time']    = $this->general->timeElapsedString($row['transaction_time']);
-                $tmpResult[]            = $row;
-            }
-            $data['donation']['data']       = $tmpResult;
-            $data['donation']['total']      = number_format(array_sum(array_column($listDonation, 'amount')), 0, ',', '.');
-        }
-
         // list of events
         $listEvents = $this->events->list();
         if (!empty($listEvents)) {
@@ -49,7 +36,27 @@ class Page extends CI_Controller {
             }
             $data['events']		    = $tmpEvents;
         }
+		$data['gallery']		= $this->gallery->list();
+		$data['midtrans_key']	= $this->midtrans->clientKey;
+		$this->twig->display('frontend/components/home_page', $data);
+	}
+	
+	public function events($id) {
+        $tmpData    = $this->general->fetchSingleData(array('id', $id), 'events');
+        $param	    = array();
+        if (!empty($tmpData)) {
+            $param['title']			= $tmpData['title'];
+            $param['description']	= $tmpData['description'];
+            if (empty($tmpData['image']) || !is_file(str_replace(base_url(), '', $tmpData['image'])))
+                $tmpData['image']			= base_url() . 'assets/images/cover.jpg';
+            $param['image']			= $tmpData['image'];
+            $param['upload']		= date('d M Y H:i', strtotime($tmpData['create_at']));
+        }
+        $data['data']   = $param;
+		$this->twig->display('frontend/components/events', $data);
+	}
 
+    public function treeFamily() {
         //list of tree family
         $listFamily     = $this->family->fetchAllFamily();
         $tmpFamily      = array();
@@ -76,23 +83,22 @@ class Page extends CI_Controller {
         }
 
         $data['family']         = json_encode($tmpFamily);
-		$data['gallery']		= $this->gallery->list();
-		$data['midtrans_key']	= $this->midtrans->clientKey;
-		$this->twig->display('frontend/index', $data);
-	}
-	
-	public function events($id) {
-        $tmpData    = $this->general->fetchSingleData(array('id', $id), 'events');
-        $param	    = array();
-        if (!empty($tmpData)) {
-            $param['title']			= $tmpData['title'];
-            $param['description']	= $tmpData['description'];
-            if (empty($tmpData['image']) || !is_file(str_replace(base_url(), '', $tmpData['image'])))
-                $tmpData['image']			= base_url() . 'assets/images/cover.jpg';
-            $param['image']			= $tmpData['image'];
-            $param['upload']		= date('d M Y H:i', strtotime($tmpData['create_at']));
+		$this->twig->display('frontend/components/tree_family', $data);
+    }
+
+    public function donation() {
+        // list of donation
+        $listDonation           = $this->donation->getDonationUsers();
+        if (!empty($listDonation)) {
+            $tmpResult              = array();
+            foreach ($listDonation as $index => $row) {
+                $row['amount']          = number_format($row['amount'], 0, ',', '.');
+                $row['elapsed_time']    = $this->general->timeElapsedString($row['transaction_time']);
+                $tmpResult[]            = $row;
+            }
+            $data['donation']['data']       = $tmpResult;
+            $data['donation']['total']      = number_format(array_sum(array_column($listDonation, 'amount')), 0, ',', '.');
         }
-        $data['data']   = $param;
-		$this->twig->display('frontend/events', $data);
-	}
+		$this->twig->display('frontend/components/donation', $data);
+    }
 }

@@ -1,0 +1,42 @@
+{% extends "frontend/skeleton.twig" %}
+{% block additional_title %}Kegiatan{% endblock %}
+{% block content %}
+<main id="main">
+  <!-- ======= Breadcrumbs ======= -->
+  <section class="breadcrumbs mt-0">
+    <div class="container">
+      <ol>
+        <li><a href="{{base_url()}}">Dashboard</a></li>
+        <li><a href="{{base_url()}}#events">Kegiatan</a></li>
+        <li>Detail Kegiatan</li>
+      </ol>
+      <h2>Detail Kegiatan</h2>
+    </div>
+  </section><!-- End Breadcrumbs -->
+  <!-- ======= Blog Single Section ======= -->
+  <section id="blog" class="blog">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12 entries">
+          <article class="entry entry-single">
+            <div class="entry-img">
+              <img src="{{data.image}}" alt="" class="img-fluid" style="width: 100%">
+            </div>
+            <h2 class="entry-title">
+              {{data.title}}
+            </h2>
+            <div class="entry-meta">
+              <ul>
+                <li class="d-flex align-items-center"><i class="bi bi-clock"></i> <span class="text-muted">{{data.upload}}</span></li>
+              </ul>
+            </div>
+            <div class="entry-content">
+              {{data.description | raw}}
+            </div>
+          </article><!-- End blog entry -->
+        </div><!-- End blog entries list -->
+      </div>
+    </div>
+  </section><!-- End Blog Single Section -->
+</main><!-- End #main -->
+{% endblock %}
